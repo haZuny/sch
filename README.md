@@ -5,11 +5,11 @@ projects in sch
 
 2020_
 
-2022_
+2022_\n\t
   Java Programing
     -1. making animation
     -2. edit source using override
     
-   Computer Graphics
+   \tComputer Graphics
     -1. DDA algorithm
     -2. Bresenham's Algorithm
