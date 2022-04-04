@@ -8,7 +8,7 @@ projects in sch
 2022_
   Java Programing
     -1. making animation
-    -2. edit source using override
+    -2. edit source using Extends and ArrayList
     
    Computer Graphics
     -1. DDA algorithm
