@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class Board extends JPanel{
 	
-	static int winX = 500;
-	static int winY = 500;
+	static int winX = 1000;
+	static int winY = 1000;
 	ArrayList<Position> myList;
 
 	// 픽셀 간격
@@ -16,7 +16,7 @@ public class Board extends JPanel{
 	
 	// 생성자
 	public Board() {
-		gap = 10;
+		gap = 5;
 	}
 	
 	
