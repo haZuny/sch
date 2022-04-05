@@ -20,7 +20,7 @@ public class BCA{
 		// p0 설정
 		p = 5/4 - r;
 
-		// 초기 값 add
+		// 초기 위치 add
 		list.add(new Position(px, py + y));
 		list.add(new Position(px, py - y));
 		list.add(new Position(px + y, py));
@@ -43,7 +43,7 @@ public class BCA{
 				p = p + 2 * x + 1 - 2 * y;
 			}
 			
-			
+			// 출력값 add
 			list.add(new Position(px + x, py +y));
 			list.add(new Position(px + y, py + x));
 			list.add(new Position(px + y, py - x));
