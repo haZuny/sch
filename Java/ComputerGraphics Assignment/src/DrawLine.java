@@ -1,23 +1,6 @@
 import javax.swing.*;
 import java.util.ArrayList;
 
-// 위치 표현 클래스
-class Position{
-	int x;
-	int y;
-	
-	Position(int xa, int ya){
-		x = xa;
-		y = ya;
-	}
-	
-	Position(double xa, double ya){
-		x = (int)xa;
-		y = (int)ya;
-	}
-}
-
-
 // 메인 클래스
 public class DrawLine extends JFrame{
 	
