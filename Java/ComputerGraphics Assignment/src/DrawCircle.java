@@ -4,8 +4,10 @@ import java.util.ArrayList;
 // 메인 클래스
 public class DrawCircle extends JFrame{
 	
-	int winX = Board.winX;
-	int winY = Board.winY;
+	// 윈도우 사이즈
+	static int winX = 500;
+	static int winY = 500;
+	static int gab = 10;
 
 	
 	// 생성자
@@ -24,7 +26,7 @@ public class DrawCircle extends JFrame{
 	
 		 // BCA 알고리즘
 		DrawCircle bcaFrame = new DrawCircle("bla");	// 프레임 생성
-		Board bcaPen = new Board();	// 패널 생성
+		Board bcaPen = new Board(winX, winY, gab);	// 패널 생성
 		bcaPen.myList = new ArrayList<Position>();	// 리스트 생성
 		bcaFrame.add(bcaPen);
 		

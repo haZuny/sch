@@ -7,16 +7,21 @@ import javax.swing.*;
 
 public class Board extends JPanel{
 	
-	static int winX = 1000;
-	static int winY = 1000;
+	// 윈도우 크기
+	static int winX;;
+	static int winY;;
+	
+	// 픽셀 리스트
 	ArrayList<Position> myList;
 
 	// 픽셀 간격
 	int gap;
 	
 	// 생성자
-	public Board() {
-		gap = 5;
+	public Board(int windowSizeX, int windowSizeY, int gapSize) {
+		winX = windowSizeX;
+		winY = windowSizeY;
+		gap = gapSize;
 	}
 	
 	
