@@ -52,10 +52,10 @@ public class Transform {
 		// 青纺 蚌 荐青
 		newList = new ArrayList<>();
 		for (int i = 0; i < originPos.size(); i++) {
-			mx =  (int) Math.round(originPos.get(i)[0] * transMet.get(0)[0] + 
+			mx =  (int) Math.floor(originPos.get(i)[0] * transMet.get(0)[0] + 
 					originPos.get(i)[1] * transMet.get(1)[0] + 
 					originPos.get(i)[2] * transMet.get(2)[0]);
-			my = (int)Math.round(originPos.get(i)[0] * transMet.get(0)[1] + 
+			my = (int)Math.floor(originPos.get(i)[0] * transMet.get(0)[1] + 
 					originPos.get(i)[1] * transMet.get(1)[1] + 
 					originPos.get(i)[2] * transMet.get(2)[1]);
 			
@@ -91,10 +91,10 @@ public class Transform {
 		// 青纺 蚌 荐青
 		newList = new ArrayList<>();
 		for (int i = 0; i < originPos.size(); i++) {
-			mx =  (int) Math.round(originPos.get(i)[0] * transMet.get(0)[0] + 
+			mx =  (int) Math.floor(originPos.get(i)[0] * transMet.get(0)[0] + 
 					originPos.get(i)[1] * transMet.get(1)[0] + 
 					originPos.get(i)[2] * transMet.get(2)[0]);
-			my = (int)Math.round(originPos.get(i)[0] * transMet.get(0)[1] + 
+			my = (int)Math.floor(originPos.get(i)[0] * transMet.get(0)[1] + 
 					originPos.get(i)[1] * transMet.get(1)[1] + 
 					originPos.get(i)[2] * transMet.get(2)[1]);
 			
@@ -134,10 +134,10 @@ public class Transform {
 		// 青纺 蚌 荐青
 		newList = new ArrayList<>();
 		for (int i = 0; i < originPos.size(); i++) {
-			mx =  (int) Math.round(originPos.get(i)[0] * transMet.get(0)[0] + 
+			mx =  (int) Math.floor(originPos.get(i)[0] * transMet.get(0)[0] + 
 					originPos.get(i)[1] * transMet.get(1)[0] + 
 					originPos.get(i)[2] * transMet.get(2)[0]);
-			my = (int)Math.round(originPos.get(i)[0] * transMet.get(0)[1] + 
+			my = (int)Math.floor(originPos.get(i)[0] * transMet.get(0)[1] + 
 					originPos.get(i)[1] * transMet.get(1)[1] + 
 					originPos.get(i)[2] * transMet.get(2)[1]);
 			
