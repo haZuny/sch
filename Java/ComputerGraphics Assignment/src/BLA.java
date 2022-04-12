@@ -19,7 +19,7 @@ public class BLA extends SuperClass{
 	}
 	
 	ArrayList<Position> start(){
-		
+				
 		// 처음 픽셀 그림
 		list.add(new Position(x1, y1));
 		

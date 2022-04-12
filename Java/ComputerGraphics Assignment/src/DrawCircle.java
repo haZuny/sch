@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class DrawCircle extends JFrame{
 	
 	// 윈도우 사이즈
-	static int winX = 500;
-	static int winY = 500;
-	static int gab = 10;
+	static int winX = 700;
+	static int winY = 700;
+	static int gab = 3;
 
 	
 	// 생성자
