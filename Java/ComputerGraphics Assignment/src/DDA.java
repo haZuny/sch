@@ -13,6 +13,26 @@ public class DDA extends SuperClass{
 		// 선분 크기
 		dx = x2 - x1;
 		dy = y2 - y1;		
+
+		// 만약 p1이 p2보다 오른쪽에 있으면 변경(xDorminent)
+		if (a > c && Math.abs(dx) > Math.abs(dy)) {
+			x = x1 = c;
+			y = y1 = d;
+			x2 = a;
+			y2 = b;
+		}
+		
+		else if (b > d && Math.abs(dx) < Math.abs(dy)) {
+			x = x1 = c;
+			y = y1 = d;
+			x2 = a;
+			y2 = b;
+		}
+		
+		dx = x2 - x1;
+		dy = y2 - y1;	
+
+		
 	}
 	
 	ArrayList<Position> start(){

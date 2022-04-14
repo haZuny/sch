@@ -74,7 +74,7 @@ public class GalagaGame extends JPanel implements KeyListener, Runnable{	// 스레
 	}
 
 	public void fire() {
-		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10,
+ 		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10,
 				starship.getY() - 30);
 		sprites.add(shot);
 	}
@@ -89,34 +89,6 @@ public class GalagaGame extends JPanel implements KeyListener, Runnable{	// 스레
 			sprite.draw(g);
 		}
 	}
-
-//	public void gameLoop() {
-//
-//		while (running) {
-//			for (int i = 0; i < sprites.size(); i++) {
-//				Sprite sprite = (Sprite) sprites.get(i);
-//				sprite.move();
-//			}
-//
-//			for (int p = 0; p < sprites.size(); p++) {
-//				for (int s = p + 1; s < sprites.size(); s++) {
-//					Sprite me = (Sprite) sprites.get(p);
-//					Sprite other = (Sprite) sprites.get(s);
-//
-//					if (me.checkCollision(other)) {
-//						me.handleCollision(other);
-//						other.handleCollision(me);
-//					}
-//				}
-//			}
-//
-//			repaint();
-//			try {
-//				Thread.sleep(10);
-//			} catch (Exception e) {
-//			}
-//		}
-//	}
 	
 	// 객체를 화면에 draw
 	public void run() {
@@ -172,7 +144,7 @@ public class GalagaGame extends JPanel implements KeyListener, Runnable{	// 스레
 
 	public static void main(String argv[]) {
 		GalagaGame g = new GalagaGame();
-//		g.gameLoop();
+		
 		// 스레드 객체를 만들고 반복 동작 수행
 		Thread t = new Thread(g);
 		t.start();
