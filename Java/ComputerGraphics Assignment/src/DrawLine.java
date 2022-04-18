@@ -27,8 +27,8 @@ public class DrawLine extends JFrame{
 	public static void main(String[] args) {
 		
 		// 그릴 점 두개
-		Position p1 = new Position(20, 50);
-		Position p2 = new Position(50, 150);
+		Position p2 = new Position(10, 150);
+		Position p1 = new Position(30, 10);
 		
 ;		
 		DrawLine frame = new DrawLine("Test");
@@ -36,17 +36,17 @@ public class DrawLine extends JFrame{
 		pan.myList = new ArrayList<Position>();
 		frame.add(pan);
 				
-		DDA dda = new DDA(p1.x, p1.y + 20, p2.x, p2.y + 20);
-		ArrayList<Position> ddaList = new ArrayList<>();
-		ddaList.addAll(dda.start());
+//		DDA dda = new DDA(p1.x, p1.y + 20, p2.x, p2.y + 20);
+//		ArrayList<Position> ddaList = new ArrayList<>();
+//		ddaList.addAll(dda.start());
 		
-//		BLA bla = new BLA(p1.x, p1.y, p2.x, p2.y);
-//		ArrayList<Position> blaList = new ArrayList<>();
-//		blaList.addAll(bla.start());
+		BLA bla = new BLA(p1.x, p1.y, p2.x, p2.y);
+		ArrayList<Position> blaList = new ArrayList<>();
+		blaList.addAll(bla.start());
 //		
 //		
-//		pan.myList.addAll(blaList);
-		pan.myList.addAll(ddaList);
+		pan.myList.addAll(blaList);
+//		pan.myList.addAll(ddaList);
 		pan.repaint();
 		
 		
