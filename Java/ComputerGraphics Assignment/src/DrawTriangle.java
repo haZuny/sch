@@ -25,18 +25,18 @@ public class DrawTriangle extends JFrame{
 		
 	
 		 // BCA 알고리즘
-		DrawCircle transFrame = new DrawCircle("Triangle Transform");	// 프레임 생성
+		DrawTriangle transFrame = new DrawTriangle("Triangle Transform");	// 프레임 생성
 		Board transPen = new Board(winX, winY, gab);	// 패널 생성
 		transPen.myList = new ArrayList<Position>();	// 리스트 생성
 		transFrame.add(transPen);
 		
 		// 삼각형 그리기
 		ArrayList<Position> triangleList = new ArrayList<>();
-		DDA tri1 = new DDA(50, 30, 100, 100);
+		BLA tri1 = new BLA(50, 30, 100, 100);
 		triangleList.addAll(tri1.start());
-		DDA tri2 = new DDA(50, 30, 30, 100);
+		BLA tri2 = new BLA(50, 30, 30, 100);
 		triangleList.addAll(tri2.start());
-		DDA tri3 = new DDA(30, 100, 100, 100);
+		BLA tri3 = new BLA(30, 100, 100, 100);
 		triangleList.addAll(tri3.start());
 		
 		transPen.myList.addAll(triangleList);
