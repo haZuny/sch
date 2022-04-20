@@ -100,7 +100,6 @@ public class Transform {
 			
 			newList.add(new Position(mx, my));
 		}
-		System.out.println(newList);
 		return newList;	
 	}
 	
@@ -143,7 +142,6 @@ public class Transform {
 			
 			newList.add(new Position(mx, my));
 		}
-		System.out.println(newList);
 		return newList;	
 	}
 }

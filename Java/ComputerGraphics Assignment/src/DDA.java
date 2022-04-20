@@ -57,7 +57,6 @@ public class DDA extends SuperClass{
 			x += xIncrement;
 			y += yIncrement;
 			list.add(new Position(((int)Math.round(x)), (int)Math.round(y)));
-			System.out.println(list.get(list.size()-1).x + ", " + list.get(list.size()-1).y );
 			
 		}
 		

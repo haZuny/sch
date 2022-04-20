@@ -1,7 +1,9 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 
 
@@ -21,6 +23,10 @@ public class Board extends JPanel{
 	public Board(int windowSizeX, int windowSizeY, int gapSize) {
 		winX = windowSizeX;
 		winY = windowSizeY;
+		
+		setSize(winX, winY);
+		setBackground(Color.red);
+		
 		gap = gapSize;
 	}
 	
@@ -33,11 +39,11 @@ public class Board extends JPanel{
 		}
 		
 		// 격자 그리기
-		for (int i = 0; i < winX / gap; i ++) {
+		for (int i = 0; i <= winX / gap; i ++) {
 			// y축
 			g.drawLine(i * gap, 0, i * gap, winY);
 				
-			for (int j = 0; j < winY / gap; j ++)
+			for (int j = 0; j <= winY / gap; j ++)
 				//x축
 				g.drawLine(0,i * gap,winX, i * gap);
 		}

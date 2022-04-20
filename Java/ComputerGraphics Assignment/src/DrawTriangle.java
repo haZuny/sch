@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 
 // 메인 클래스
@@ -12,21 +15,20 @@ public class DrawTriangle extends JFrame{
 	
 	// 생성자
 	public DrawTriangle(String title) {
-		setSize(winX,winY);
+		setSize(winX + 100, winY + 100);
 		setVisible(true);
 		setTitle(title);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 		
 	// Main
 	public static void main(String[] args) {
-		
-		
-	
+			
 		 // BCA 알고리즘
 		DrawTriangle transFrame = new DrawTriangle("Triangle Transform");	// 프레임 생성
 		Board transPen = new Board(winX, winY, gab);	// 패널 생성
+		
 		transPen.myList = new ArrayList<Position>();	// 리스트 생성
 		transFrame.add(transPen);
 		
@@ -50,7 +52,7 @@ public class DrawTriangle extends JFrame{
 		transPen.myList.addAll(trans.scale(0.5, 0.5, new Position(Math.round((30 + 50 + 100) / 3), Math.round((30 + 100 + 100) / 3))));
 		
 		// 회전
-		transPen.myList.addAll(trans.rotation(45, new Position(Math.round((30 + 50 + 100) / 3), Math.round((30 + 100 + 100) / 3))));
+		transPen.myList.addAll(trans.rotation(20, new Position(Math.round((30 + 50 + 100) / 3), Math.round((30 + 100 + 100) / 3))));
 
 	}
 	

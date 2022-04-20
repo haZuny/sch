@@ -46,7 +46,6 @@ public class BLA extends SuperClass{
 			}
 			// 음의 기울기
 			else {
-				System.out.println("음의기울기");
 				yIncrease = -1;
 			}
 		}
@@ -76,9 +75,7 @@ public class BLA extends SuperClass{
 		
 		// x dominant
 		if (delX >= delY) {
-			System.out.println("x dominant");
 			for (int i = 0; i < delX; i++) {
-					System.out.println(x + ", " + y);
 					// 음수인 경우
 					if (p < 0) {
 						list.add(new Position(x = (x + 1), y));
@@ -95,7 +92,6 @@ public class BLA extends SuperClass{
 		
 		// y dominant
 		else {
-			System.out.println("y dominant");
 			for (int i = 0; i < delY; i++) {
 				// 음수인 경우
 				if (p < 0) {
