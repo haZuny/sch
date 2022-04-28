@@ -76,7 +76,6 @@ public class DrawTriangle extends JFrame{
 		ArrayList<Position> rotateList = new ArrayList<>();
 		// È¸Àü
 		rotateList.addAll(trans.rotation(45, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
-		System.out.println(rotateList);
 		
 		BLA rotateBLA1 = new BLA(rotateList.get(0).x, rotateList.get(0).y, rotateList.get(1).x, rotateList.get(1).y);
 		transPen.myList.addAll(rotateBLA1.start());
@@ -86,8 +85,6 @@ public class DrawTriangle extends JFrame{
 		
 		BLA rotateBLA3 = new BLA(rotateList.get(2).x, rotateList.get(2).y, rotateList.get(0).x, rotateList.get(0).y);
 		transPen.myList.addAll(rotateBLA3.start());
-	}
+			}
 	
-	
-
 }
