@@ -18,19 +18,48 @@ public class LineClipping {
 	
 	ArrayList<Position> list;
 	
+	// 직선 공식 선분, y = mx + yIntercept
+	double m;	// 기울기
+	double yIntercept;	// y절편
+	
+	// 교점 좌표
+	double leftIntersectionX;
+	double leftIntersectionY;
+	double rightIntersectionX;
+	double rightIntersectionY;
+	double aboveIntersectionX;
+	double aboveIntersectionY;
+	double belowIntersectionX;
+	double belowIntersectionY;
+	
 	
 	public ArrayList<Position> start(Position p1, Position p2, Position wp1, Position wp2) {
+		
 		list = new ArrayList<>();
 		
 		// 위치 비트 초기화
 		p1_bit = 0;
 		p2_bit = 0;
 		
+		// 교점 좌표 초기화
+		leftIntersectionX = 0;
+		leftIntersectionY = 0;
+		rightIntersectionX = 0;
+		rightIntersectionY = 0;
+		aboveIntersectionX = 0;
+		aboveIntersectionY = 0;
+		belowIntersectionX = 0;
+		belowIntersectionY = 0;
+		
 		// 점 위치 받음
 		x1 = p1.x;
 		y1 = p1.y;
 		x2 = p2.x;
 		y2 = p2.y;
+		
+		// 상수값 구함
+		m = (y2 - y1) / (x2 - x1);
+		yIntercept = y1 - m * x1;
 		
 		// 윈도우 영역 받음
 		xMin = (wp1.x < wp2.x) ? wp1.x : wp2.x;
@@ -62,12 +91,34 @@ public class LineClipping {
 		}
 		// 그 외의 경우 - Line Clipping
 		else {
-			Position vertical;
-			Position horizonnal;
+			// 한쪽이 영역 안인 경우
+			if (p1_bit == 0)
+				list.add(p1);
+			if (p2_bit == 0)
+				list.add(p2);
 			
+			// 각 경계에 대한 좌표 구함
+			leftIntersectionX = xMin;
+			leftIntersectionY = y1 + m * (xMin - x1);
+			rightIntersectionX = xMax;
+			rightIntersectionY = y1 + m * (xMax - x1);
+			aboveIntersectionX = x1 + (yMin - y1) / m;
+			aboveIntersectionY = yMin;
+			belowIntersectionX = x1 + (yMax - y1) / m;
+			belowIntersectionY = yMax;
+			
+			// 구한 교점을 직선 방정식에 대입하고 성립하면 add
+			if(leftIntersectionY >= yMin && leftIntersectionY <= yMax)
+				list.add(new Position(leftIntersectionX, leftIntersectionY));
+			if(rightIntersectionY >= yMin && rightIntersectionY <= yMax)
+				list.add(new Position(rightIntersectionX, rightIntersectionY));
+			if(aboveIntersectionX >= xMin && aboveIntersectionX <= xMax)
+				list.add(new Position(aboveIntersectionX, aboveIntersectionY));
+			if(belowIntersectionX >= xMin && belowIntersectionX <= xMax)
+				list.add(new Position(belowIntersectionX, belowIntersectionY));
 		}
 		
-		
+		System.out.println(list);
 		return list;
 	}
 }

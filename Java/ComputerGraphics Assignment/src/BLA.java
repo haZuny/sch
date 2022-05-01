@@ -28,9 +28,6 @@ public class BLA extends SuperClass{
 		}
 		
 		
-//		delX= Math.abs(x2 - x1);
-//		delY = Math.abs(y2 - y1);
-		
 		delX= Math.abs(x2 - x1);
 		delY = Math.abs(y2 - y1);
 		
