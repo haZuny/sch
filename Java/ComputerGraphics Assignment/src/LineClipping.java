@@ -118,6 +118,18 @@ public class LineClipping {
 				list.add(new Position(belowIntersectionX, belowIntersectionY));
 		}
 		
+		// 점이 여러개인 경우
+		if (list.size() > 2) {
+			Position p = null;
+			for (Position point : list) {
+				double x1 = p1.x < p2.x ? p1.x : p2.x;
+				double x2 = p1.x > p2.x ? p1.x : p2.x;
+				if (!(point.x > x1 && point.x < x2)) {
+					p = point;
+				}
+			}
+			list.remove(p);
+		}
 		
 		// 점이 충분하지 않으면 null 삽입
 		if(list.size() == 1)

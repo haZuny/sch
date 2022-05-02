@@ -51,27 +51,27 @@ public class DrawTriangle extends JFrame {
 		transPen.myList.addAll(bla.start(winPoint2, new Position(winPoint2.x, winPoint1.y)));
 
 		// 삼각형 그리기
-//		ArrayList<Position> triangleList = new ArrayList<>();
-//		triangleList.addAll(bla.start(point1, point2));
-//		triangleList.addAll(bla.start(point3, point2));
-//		triangleList.addAll(bla.start(point1, point3));
-//		
-//		transPen.myList.addAll(triangleList);
-
-		// 삼각형 클립핑
 		ArrayList<Position> triangleList = new ArrayList<>();
-
-		clippintLineList = clipping.start(point1, point2, winPoint1, winPoint2);
-		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
-		clippintLineList = clipping.start(point2, point3, winPoint1, winPoint2);
-		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
-		clippintLineList = clipping.start(point1, point3, winPoint1, winPoint2);
-		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
+		triangleList.addAll(bla.start(point1, point2));
+		triangleList.addAll(bla.start(point3, point2));
+		triangleList.addAll(bla.start(point1, point3));
+		
 		transPen.myList.addAll(triangleList);
-		transPen.repaint();
+
+//		// 삼각형 클립핑
+//		ArrayList<Position> triangleList = new ArrayList<>();
+//
+//		clippintLineList = clipping.start(point1, point2, winPoint1, winPoint2);
+//		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
+//
+//		clippintLineList = clipping.start(point2, point3, winPoint1, winPoint2);
+//		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
+//
+//		clippintLineList = clipping.start(point1, point3, winPoint1, winPoint2);
+//		triangleList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
+//
+//		transPen.myList.addAll(triangleList);
+//		transPen.repaint();
 
 		// 삼각형 세 꼭지점 리스트
 		ArrayList<Position> triList = new ArrayList<>();
@@ -90,38 +90,38 @@ public class DrawTriangle extends JFrame {
 		transPen.myList.addAll(bla.start(scaleList.get(2), scaleList.get(1)));
 		transPen.myList.addAll(bla.start(scaleList.get(0), scaleList.get(2)));
 
-		// 클리핑 확대
-		ArrayList<Position> scaleList2 = new ArrayList<>();
-		scaleList2.addAll(
-				trans.scale(1.5, 1.5, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
+//		// 클리핑 확대
+//		ArrayList<Position> scaleList2 = new ArrayList<>();
+//		scaleList2.addAll(
+//				trans.scale(1.5, 1.5, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
+//
+//		clippintLineList = clipping.start(scaleList2.get(0), scaleList2.get(1), winPoint1, winPoint2);
+//		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
+//
+//		clippintLineList = clipping.start(scaleList2.get(1), scaleList2.get(2), winPoint1, winPoint2);
+//		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
+//
+//		clippintLineList = clipping.start(scaleList2.get(2), scaleList2.get(0), winPoint1, winPoint2);
+//		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
 
-		clippintLineList = clipping.start(scaleList2.get(0), scaleList2.get(1), winPoint1, winPoint2);
-		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
-		clippintLineList = clipping.start(scaleList2.get(1), scaleList2.get(2), winPoint1, winPoint2);
-		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
-		clippintLineList = clipping.start(scaleList2.get(2), scaleList2.get(0), winPoint1, winPoint2);
-		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-
-//		// 회전
-//		ArrayList<Position> rotateList = new ArrayList<>();
-//		rotateList.addAll(trans.rotation(180, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
-//		
-//		transPen.myList.addAll(bla.start(rotateList.get(0), rotateList.get(1)));
-//		transPen.myList.addAll(bla.start(rotateList.get(0), rotateList.get(2)));
-//		transPen.myList.addAll(bla.start(rotateList.get(2), rotateList.get(1)));
+		// 회전
+		ArrayList<Position> rotateList = new ArrayList<>();
+		rotateList.addAll(trans.rotation(180, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
+		
+		transPen.myList.addAll(bla.start(rotateList.get(0), rotateList.get(1)));
+		transPen.myList.addAll(bla.start(rotateList.get(0), rotateList.get(2)));
+		transPen.myList.addAll(bla.start(rotateList.get(2), rotateList.get(1)));
 
 //		// 회전 클립핑
-//		ArrayList<Position> rotateList = new ArrayList<>();
-//		rotateList.addAll(
+//		ArrayList<Position> rotateList2 = new ArrayList<>();
+//		rotateList2.addAll(
 //				trans.rotation(180, new Position(Math.floor((30 + 50 + 100) / 3), Math.floor((30 + 100 + 100) / 3))));
 //
-//		clippintLineList = clipping.start(rotateList.get(0), rotateList.get(1), winPoint1, winPoint2);
+//		clippintLineList = clipping.start(rotateList2.get(0), rotateList2.get(1), winPoint1, winPoint2);
 //		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-//		clippintLineList = clipping.start(rotateList.get(2), rotateList.get(1), winPoint1, winPoint2);
+//		clippintLineList = clipping.start(rotateList2.get(2), rotateList2.get(1), winPoint1, winPoint2);
 //		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
-//		clippintLineList = clipping.start(rotateList.get(0), rotateList.get(2), winPoint1, winPoint2);
+//		clippintLineList = clipping.start(rotateList2.get(0), rotateList2.get(2), winPoint1, winPoint2);
 //		transPen.myList.addAll(bla.start(clippintLineList.get(0), clippintLineList.get(1)));
 	}
 
