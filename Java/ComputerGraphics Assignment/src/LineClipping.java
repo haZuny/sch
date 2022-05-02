@@ -8,8 +8,8 @@ public class LineClipping {
 	static int RIGHT = 2;	// 0010, bit3
 	static int LEFT = 1;	// 0001, bit4
 
-	int x1, y1, x2, y2;
-	int xMin, xMax, yMin, yMax;
+	double x1, y1, x2, y2;
+	double xMin, xMax, yMin, yMax;
 	
 	// 각 점의 위치 비트
 	int p1_bit;
@@ -118,7 +118,14 @@ public class LineClipping {
 				list.add(new Position(belowIntersectionX, belowIntersectionY));
 		}
 		
-		System.out.println(list);
+		
+		// 점이 충분하지 않으면 null 삽입
+		if(list.size() == 1)
+			list.add(null);
+		else if(list.size() == 0) {
+			list.add(null);
+			list.add(null);
+			}
 		return list;
 	}
 }

@@ -40,9 +40,9 @@ public class DrawLine extends JFrame{
 //		ArrayList<Position> ddaList = new ArrayList<>();
 //		ddaList.addAll(dda.start());
 		
-		BLA bla = new BLA(p1.x, p1.y, p2.x, p2.y);
+		BLA bla = new BLA();
 		ArrayList<Position> blaList = new ArrayList<>();
-		blaList.addAll(bla.start());
+		blaList.addAll(bla.start(p1, p2));
 //		
 //		
 		pan.myList.addAll(blaList);
