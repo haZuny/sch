@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -10,33 +11,28 @@ import javax.swing.border.*;
 public class Board extends JPanel{
 	
 	// 윈도우 크기
-	static int winX;;
-	static int winY;;
+	static int winX;
+	static int winY;
 	
 	// 픽셀 리스트
-	ArrayList<Position> myList;
+	ArrayList<Position> figureGroups;
 
 	// 픽셀 간격
 	int gap;
 	
 	// 생성자
 	public Board(int windowSizeX, int windowSizeY, int gapSize) {
-		winX = windowSizeX;
-		winY = windowSizeY;
+		winX = windowSizeX + 1;
+		winY = windowSizeY + 1;
 		
-		setSize(winX, winY);
-		setBackground(Color.red);
 		
+		setPreferredSize(new Dimension(winX, winY));
 		gap = gapSize;
 	}
 	
 	
 	// paint 동작 정의
-	public void paint(Graphics g){		
-		// 리스트에 있는 값 그리기
-		for(Position loc : myList){
-			g.fillRect(loc.x * gap, loc.y * gap, gap, gap);
-		}
+	public void paint(Graphics g){	
 		
 		// 격자 그리기
 		for (int i = 0; i <= winX / gap; i ++) {
