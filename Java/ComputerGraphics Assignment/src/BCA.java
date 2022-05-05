@@ -6,28 +6,25 @@ public class BCA{
 	double p, x, y, px, py;
 	ArrayList<Position> list;
 	
-	public BCA(int a, int b, int r){
+	ArrayList<Position> start(Position pos, int radious){
 		// 원의 중심
-		px = a;
-		py = b;
-		
-		// 그리는 좌표
-		x = 0;
-		y = r;
-		
-		list = new ArrayList<>();
-		
-		// p0 설정
-		p = 5/4 - r;
+				px = pos.x;
+				py = pos.y;
+				
+				// 그리는 좌표
+				x = 0;
+				y = radious;
+				
+				list = new ArrayList<>();
+				
+				// p0 설정
+				p = 5/4 - radious;
 
-		// 초기 위치 add
-		list.add(new Position(px, py + y));
-		list.add(new Position(px, py - y));
-		list.add(new Position(px + y, py));
-		list.add(new Position(px - y, py));
-	}
-	
-	ArrayList<Position> start(){
+				// 초기 위치 add
+				list.add(new Position(px, py + y));
+				list.add(new Position(px, py - y));
+				list.add(new Position(px + y, py));
+				list.add(new Position(px - y, py));
 		
 		// 처음 픽셀 그림	
 		while (x < y) {
