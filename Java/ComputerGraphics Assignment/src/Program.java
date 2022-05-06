@@ -21,10 +21,10 @@ public class Program extends JFrame {
 	static int winY = 600;
 
 	// 그림 영역 사이즈
-	int panX = 500;
-	int panY = 500;
-	int gap = 2;
-	boolean gridFlag = false;
+	static int panX = 500;
+	static int panY = 500;
+	static int gap = 5;
+	boolean gridFlag = true;
 
 	// 선택된 레이블
 	static int NULL = 0;
@@ -59,9 +59,10 @@ public class Program extends JFrame {
 	static JTextField text_transScaleSizeX;
 	static JTextField text_transScaleSizeY;
 	static JTextField text_transRotateP1;
-	private JTextField text_transRotateAngle;
+	static JTextField text_transRotateAngle;
 	static JTextField text_clipClipP1;
 	static JTextField text_clipClipP2;
+	static JLabel label_checkIsClipped;
 	private JButton btn_clipClipBack;
 	private JButton btn_clear;
 	private JButton btn_delete;
@@ -307,13 +308,13 @@ public class Program extends JFrame {
 		panel_trans.add(text_transRotateAngle);
 
 		text_transScaleSizeX = new JTextField();
-		text_transScaleSizeX.setText("100");
+		text_transScaleSizeX.setText("1");
 		text_transScaleSizeX.setColumns(10);
 		text_transScaleSizeX.setBounds(105, 65, 30, 20);
 		panel_trans.add(text_transScaleSizeX);
 
 		text_transScaleSizeY = new JTextField();
-		text_transScaleSizeY.setText("100");
+		text_transScaleSizeY.setText("1");
 		text_transScaleSizeY.setColumns(10);
 		text_transScaleSizeY.setBounds(140, 65, 30, 20);
 		panel_trans.add(text_transScaleSizeY);
@@ -354,11 +355,22 @@ public class Program extends JFrame {
 		panel_clip.add(text_clipClipP2);
 
 		btn_clipClipBack = new JButton("Back");
+		btn_clipClipBack.addActionListener(e->{
+			if(Board.isClipping) {
+				Board.isClipping = false;
+				label_checkIsClipped.setText("Off");
+			}
+			else {
+				Board.isClipping = true;
+				label_checkIsClipped.setText("On");
+			}
+			repaint();
+		});
 		btn_clipClipBack.setBounds(140, 40, 70, 20);
 		panel_clip.add(btn_clipClipBack);
 
 		// 그 외
-		// 삭제
+		// 초기화
 		btn_clear = new JButton("Clear");
 		btn_clear.addActionListener(e -> {
 			Board.polygonLyst.clear();
@@ -397,6 +409,13 @@ public class Program extends JFrame {
 		text_transMoveP2.setBounds(105, 40, 30, 20);
 		panel_trans.add(text_transMoveP2);
 		radioGroup.add(radio_clipClipping);
+		
+		label_checkIsClipped = new JLabel("Off");
+		label_checkIsClipped.setFont(new Font("굴림", Font.BOLD, 12));
+		label_checkIsClipped.setForeground(Color.BLACK);
+		label_checkIsClipped.setHorizontalAlignment(SwingConstants.CENTER);
+		label_checkIsClipped.setBounds(10, 23, 30, 20);
+		panel_clip.add(label_checkIsClipped);
 
 	}
 }

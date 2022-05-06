@@ -12,6 +12,7 @@ public class BLA {
 	double delX, delY, p0, pMC, pPC, p, xIncrease, yIncrease;
 
 	ArrayList<Position> start(Position p1, Position p2) {
+		System.out.println(p1 + "" + p2);
 
 		list = new ArrayList<>();
 		

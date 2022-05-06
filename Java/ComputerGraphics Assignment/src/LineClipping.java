@@ -36,6 +36,8 @@ public class LineClipping {
 	double P1, P2, P3, P4;
 	double q1, q2, q3, q4;
 	double u1, u2, u3, u4;
+	
+	Transform trans;
 
 	public ArrayList<Position> start(Position p1, Position p2, Position wp1, Position wp2) {
 
@@ -135,6 +137,14 @@ public class LineClipping {
 			list.remove(p);
 		}
 
+		// viewPort
+		trans = new Transform(list);
+		double scaleSX = (Program.panX / Program.gap) / (xMax - xMin);
+		double scaleSY = (Program.panY / Program.gap) / (yMax - yMin);
+		list = trans.scale(scaleSX, scaleSY, new Position(xMin, yMin));
+		trans = new Transform(list);
+		list = trans.translation(-xMin, -yMin);
+		
 		// 점이 충분하지 않으면 null 삽입
 		if (list.size() == 1)
 			list.add(null);
@@ -142,6 +152,7 @@ public class LineClipping {
 			list.add(null);
 			list.add(null);
 		}
+		
 		return list;
 	}
 	
@@ -208,14 +219,7 @@ public class LineClipping {
 		u2 = q2 / P2;
 		u3 = q3 / P3;
 		u4 = q4 / P4;
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		return list;
 	}
 

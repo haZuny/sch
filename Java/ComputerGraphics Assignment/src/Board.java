@@ -14,6 +14,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 	static Stack<Polygon> polygonLyst; // 도형 리스트
 	static ArrayList<Position> clickedPos; // 마우스 클릭된 포스
+	static boolean isClipping = false;
 
 	int winX;
 	int winY;
@@ -57,18 +58,27 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 			g.setColor(Color.black);
 		}
 
+		// 도형 그리기
+		if (isClipping) {
+			for (Polygon poly : polygonLyst) {
+				for (Position pos : poly.clippedFixelList) {
+					g.fillRect(pos.x * gap, pos.y * gap, gap, gap);
+				}
+			}
+
+		} else {
+			for (Polygon poly : polygonLyst) {
+				for (Position pos : poly.fixelList) {
+					g.fillRect(pos.x * gap, pos.y * gap, gap, gap);
+				}
+			}
+		}
+
 		// 마우스 올라가있는 영역 색칠
 		if (mousePos != null) {
 			g.setColor(Color.RED);
 			g.fillRect(mousePos.x * gap, mousePos.y * gap, gap, gap);
 			g.setColor(Color.black);
-		}
-
-		// 도형 그리기
-		for (Polygon poly : polygonLyst) {
-			for (Position pos : poly.fixelList) {
-				g.fillRect(pos.x * gap, pos.y * gap, gap, gap);
-			}
 		}
 	}
 
@@ -90,6 +100,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Position p = new Position(mousePos.x, mousePos.y);
+
 		// 점 그리기
 		if (Program.selectedFunc == Program.DRAW_POINT) {
 			if (clickedPos.size() == 0) {
@@ -204,7 +215,40 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 				Program.text_transScaleFP1.setText("");
 				clickedPos.add(p);
 				Program.text_transScaleFP1.setText(p.x + "," + p.y);
-				polygonLyst.peek().transScale(Program.text_transScaleSizeX.getText(), Program.text_transScaleSizeY.getText(), clickedPos.get(0));
+				polygonLyst.peek().transScale(Program.text_transScaleSizeX.getText(),
+						Program.text_transScaleSizeY.getText(), clickedPos.get(0));
+				clickedPos.clear();
+				repaint();
+			}
+		}
+
+		// 회전
+		if (Program.selectedFunc == Program.TRANS_ROTATE) {
+			if (clickedPos.size() == 0) {
+				Program.text_transRotateP1.setText("");
+				clickedPos.add(p);
+				Program.text_transRotateP1.setText(p.x + "," + p.y);
+				polygonLyst.peek().transRotate(Program.text_transRotateAngle.getText(), clickedPos.get(0));
+				clickedPos.clear();
+				repaint();
+			}
+		}
+
+		// 클리핑
+		if (Program.selectedFunc == Program.CLIP_CLIPPING) {
+			if (clickedPos.size() == 0) {
+				Program.text_clipClipP1.setText("");
+				Program.text_clipClipP2.setText("");
+				clickedPos.add(p);
+				Program.text_clipClipP1.setText(p.x + "," + p.y);
+			} else {
+				clickedPos.add(p);
+				Program.text_clipClipP2.setText(p.x + "," + p.y);
+				isClipping = true;
+				Program.label_checkIsClipped.setText("On");
+				for (Polygon polygon : polygonLyst) {
+					polygon.clipClip(clickedPos.get(0), clickedPos.get(1));
+				}
 				clickedPos.clear();
 				repaint();
 			}

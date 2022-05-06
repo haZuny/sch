@@ -1,14 +1,18 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public abstract class Polygon {
 	ArrayList<Position> fixelList;
 	ArrayList<Position> clippedFixelList;
+	ArrayList<Position> transList;
 	LineClipping clipping;
 
 	abstract void transMove(Position pa, Position pb);
+
 	abstract void transScale(String sizeX, String sizeY, Position pa);
+
+	abstract void transRotate(String angle, Position pa);
+
 	abstract void clipClip(Position pa, Position pb);
 
 	public Polygon() {
@@ -22,12 +26,10 @@ public abstract class Polygon {
 class Point2 extends Polygon {
 	Position p1;
 	Transform trans;
-	ArrayList<Position> transList;
 
 	public Point2(Position p) {
-		java.util.List<Position> list = Arrays.asList(p1);
-		trans = new Transform(new ArrayList<>(list));
 		p1 = p;
+		trans = new Transform(new ArrayList<>(Arrays.asList(p1)));
 		// draw
 		fixelList.clear();
 		fixelList.add(p1);
@@ -37,18 +39,47 @@ class Point2 extends Polygon {
 	void transMove(Position pa, Position pb) {
 		transList = trans.translation(pb.x - pa.x, pb.y - pa.y);
 		fixelList.clear();
-		fixelList.add(transList.get(0));	
+		fixelList.add(transList.get(0));
 		p1 = transList.get(0);
 	}
-	
+
 	@Override
 	void transScale(String sizeX, String sizeY, Position pa) {
-		
+		try {
+			transList = trans.scale(Double.parseDouble(sizeX), Double.parseDouble(sizeY), pa);
+			fixelList.clear();
+			fixelList.add(transList.get(0));
+			p1 = transList.get(0);
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+	}
+
+	@Override
+	void transRotate(String angle, Position pa) {
+		try {
+			transList = trans.rotation(Integer.parseInt(angle), pa);
+			fixelList.clear();
+			fixelList.add(transList.get(0));
+			p1 = transList.get(0);
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
 	}
 
 	@Override
 	void clipClip(Position pa, Position pb) {
+		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
+
+		if (p1.x >= xMin && p1.x <= xMax) {
+			if (p1.y >= yMin && p1.y <= yMax)
+				clippedFixelList.add(p1);
+		}
+
 	}
 }
 
@@ -57,46 +88,63 @@ class Line extends Polygon {
 	Position p1;
 	Position p2;
 	Transform trans;
-	ArrayList<Position> transList;
 	BLA bla;
 
 	public Line(Position pa, Position pb) {
 		p1 = pa;
 		p2 = pb;
-		java.util.List<Position> list = Arrays.asList(p1, p2);
-		trans = new Transform(new ArrayList<>(list));
+		trans = new Transform(new ArrayList<>(Arrays.asList(p1, p2)));
 		bla = new BLA();
 		// draw
 		fixelList.clear();
 		fixelList.addAll(bla.start(p1, p2));
 	}
-	
+
 	@Override
 	void transMove(Position pa, Position pb) {
 		transList = trans.translation(pb.x - pa.x, pb.y - pa.y);
 		fixelList.clear();
-		fixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 		p1 = transList.get(0);
 		p2 = transList.get(1);
+		fixelList.addAll(bla.start(p1, p2));
 	}
-	
+
 	@Override
 	void transScale(String sizeX, String sizeY, Position pa) {
 		try {
 			transList = trans.scale(Double.parseDouble(sizeX), Double.parseDouble(sizeY), pa);
 			fixelList.clear();
-			fixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 			p1 = transList.get(0);
 			p2 = transList.get(1);
+			fixelList.addAll(bla.start(p1, p2));
 		} catch (NumberFormatException ee) {
 			Board.clickedPos.clear();
-		}	
+		}
 	}
 
+	@Override
+	void transRotate(String angle, Position pa) {
+		try {
+			transList = trans.rotation(Integer.parseInt(angle), pa);
+			fixelList.clear();
+			p1 = transList.get(0);
+			p2 = transList.get(1);
+			fixelList.addAll(bla.start(p1, p2));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+	}
 
 	@Override
 	void clipClip(Position pa, Position pb) {
+		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
+
+		transList = clipping.start(p1, p2, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 	}
 }
 
@@ -105,41 +153,78 @@ class Circle extends Polygon {
 	Position p1;
 	int rad;
 	Transform trans;
-	ArrayList<Position> transList;
 	BCA bca;
 
 	public Circle(Position p, int radious) {
 		p1 = p;
 		rad = radious;
-		trans = new Transform(fixelList);
+		trans = new Transform(new ArrayList<Position>(Arrays.asList(p1, new Position(p1.x + rad, p1.y))));
 		bca = new BCA();
 		// draw
 		fixelList.clear();
 		fixelList.addAll(bca.start(p1, rad));
+
 	}
-	
+
 	@Override
 	void transMove(Position pa, Position pb) {
 		transList = trans.translation(pb.x - pa.x, pb.y - pa.y);
-		fixelList.clear();
-		fixelList.addAll(transList);	
 		p1 = transList.get(0);
+		rad = (int) Math.abs(Math.sqrt(Math.pow(transList.get(1).x - transList.get(0).x, 2)
+				+ Math.pow(transList.get(1).y - transList.get(0).y, 2)));
+		fixelList.clear();
+		fixelList.addAll(bca.start(p1, rad));
 	}
-	
+
 	@Override
 	void transScale(String sizeX, String sizeY, Position pa) {
 		try {
 			transList = trans.scale(Double.parseDouble(sizeX), Double.parseDouble(sizeY), pa);
+			p1 = transList.get(0);
+			rad = (int) Math.abs(Math.sqrt(Math.pow(transList.get(1).x - transList.get(0).x, 2)
+					+ Math.pow(transList.get(1).y - transList.get(0).y, 2)));
 			fixelList.clear();
-			fixelList.addAll(transList);
+			fixelList.addAll(bca.start(p1, rad));
 		} catch (NumberFormatException ee) {
 			Board.clickedPos.clear();
-		}	
+		}
 	}
-	
+
+	@Override
+	void transRotate(String angle, Position pa) {
+		try {
+			transList = trans.rotation(Integer.parseInt(angle), pa);
+			p1 = transList.get(0);
+			rad = (int) Math.abs(Math.sqrt(Math.pow(transList.get(1).x - transList.get(0).x, 2)
+					+ Math.pow(transList.get(1).y - transList.get(0).y, 2)));
+			fixelList.clear();
+			fixelList.addAll(bca.start(p1, rad));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+	}
+
 	@Override
 	void clipClip(Position pa, Position pb) {
+		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
+
+		double scaleSX = (Program.panX / Program.gap) / (xMax - xMin);
+		double scaleSY = (Program.panY / Program.gap) / (yMax - yMin);
+		Transform transClip = new Transform(new ArrayList<Position>(Arrays.asList(p1, new Position(p1.x + rad, p1.y))));
+		transList = transClip.scale(scaleSX, scaleSY, new Position(xMin, yMin));
+		
+		clippedFixelList.clear();
+		clippedFixelList.addAll(bca.start(transList.get(0),
+				(int) Math.abs(Math.sqrt(Math.pow(transList.get(1).x - transList.get(0).x, 2)
+						+ Math.pow(transList.get(1).y - transList.get(0).y, 2)))));
+
+		// viewPort
+		transClip = new Transform(clippedFixelList);
+		clippedFixelList = transClip.translation(-xMin, -yMin);
 	}
 }
 
@@ -149,15 +234,13 @@ class Triangle extends Polygon {
 	Position p2;
 	Position p3;
 	Transform trans;
-	ArrayList<Position> transList;
 	BLA bla;
 
 	public Triangle(Position pa, Position pb, Position pc) {
 		p1 = pa;
 		p2 = pb;
 		p3 = pc;
-		java.util.List<Position> list = Arrays.asList(p1, p2, p3);
-		trans = new Transform(new ArrayList<>(list));
+		trans = new Transform(new ArrayList<>(Arrays.asList(p1, p2, p3)));
 		bla = new BLA();
 		// draw
 		fixelList.clear();
@@ -165,28 +248,65 @@ class Triangle extends Polygon {
 		fixelList.addAll(bla.start(p1, p3));
 		fixelList.addAll(bla.start(p2, p3));
 	}
-	
+
 	@Override
 	void transMove(Position pa, Position pb) {
 		transList = trans.translation(pb.x - pa.x, pb.y - pa.y);
 		fixelList.clear();
-		fixelList.addAll(bla.start(transList.get(0), transList.get(1)));		
-		fixelList.addAll(bla.start(transList.get(0), transList.get(2)));		
-		fixelList.addAll(bla.start(transList.get(2), transList.get(1)));
 		p1 = transList.get(0);
 		p2 = transList.get(1);
 		p3 = transList.get(2);
+		fixelList.addAll(bla.start(p1, p2));
+		fixelList.addAll(bla.start(p2, p3));
+		fixelList.addAll(bla.start(p1, p3));
 	}
-	
+
 	@Override
 	void transScale(String sizeX, String sizeY, Position pa) {
-		// TODO Auto-generated method stub
-		
+		try {
+			transList = trans.scale(Double.parseDouble(sizeX), Double.parseDouble(sizeY), pa);
+			fixelList.clear();
+			p1 = transList.get(0);
+			p2 = transList.get(1);
+			p3 = transList.get(2);
+			fixelList.addAll(bla.start(p1, p2));
+			fixelList.addAll(bla.start(p2, p3));
+			fixelList.addAll(bla.start(p1, p3));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+	}
+
+	@Override
+	void transRotate(String angle, Position pa) {
+		try {
+			transList = trans.rotation(Integer.parseInt(angle), pa);
+			fixelList.clear();
+			p1 = transList.get(0);
+			p2 = transList.get(1);
+			p3 = transList.get(2);
+			fixelList.addAll(bla.start(p1, p2));
+			fixelList.addAll(bla.start(p2, p3));
+			fixelList.addAll(bla.start(p1, p3));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
 	}
 
 	@Override
 	void clipClip(Position pa, Position pb) {
+		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
+
+		transList = clipping.start(p1, p2, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
+		transList = clipping.start(p2, p3, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
+		transList = clipping.start(p1, p3, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 	}
 }
 
@@ -197,7 +317,6 @@ class Quad extends Polygon {
 	Position p3;
 	Position p4;
 	Transform trans;
-	ArrayList<Position> transList;
 	BLA bla;
 
 	public Quad(Position pa, Position pb, Position pc, Position pd) {
@@ -205,8 +324,7 @@ class Quad extends Polygon {
 		p2 = pb;
 		p3 = pc;
 		p4 = pd;
-		java.util.List<Position> list = Arrays.asList(p1, p2, p3, p4);
-		trans = new Transform(new ArrayList<>(list));
+		trans = new Transform(new ArrayList<>(Arrays.asList(p1, p2, p3, p4)));
 		bla = new BLA();
 		// draw
 		fixelList.clear();
@@ -220,24 +338,68 @@ class Quad extends Polygon {
 	void transMove(Position pa, Position pb) {
 		transList = trans.translation(pb.x - pa.x, pb.y - pa.y);
 		fixelList.clear();
-		fixelList.addAll(bla.start(transList.get(0), transList.get(1)));		
-		fixelList.addAll(bla.start(transList.get(1), transList.get(2)));		
-		fixelList.addAll(bla.start(transList.get(2), transList.get(3)));		
-		fixelList.addAll(bla.start(transList.get(3), transList.get(0)));	
 		p1 = transList.get(0);
-		p1 = transList.get(1);
-		p2 = transList.get(2);
-		p3 = transList.get(3);
+		p2 = transList.get(1);
+		p3 = transList.get(2);
+		p4 = transList.get(3);
+		fixelList.addAll(bla.start(p1, p2));
+		fixelList.addAll(bla.start(p3, p2));
+		fixelList.addAll(bla.start(p4, p3));
+		fixelList.addAll(bla.start(p1, p4));
 	}
-	
+
+	@Override
+	void transRotate(String angle, Position pa) {
+		try {
+			transList = trans.rotation(Integer.parseInt(angle), pa);
+			fixelList.clear();
+			p1 = transList.get(0);
+			p2 = transList.get(1);
+			p3 = transList.get(2);
+			p4 = transList.get(3);
+			fixelList.addAll(bla.start(p1, p2));
+			fixelList.addAll(bla.start(p3, p2));
+			fixelList.addAll(bla.start(p4, p3));
+			fixelList.addAll(bla.start(p1, p4));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+	}
+
 	@Override
 	void transScale(String sizeX, String sizeY, Position pa) {
-		// TODO Auto-generated method stub
-		
+		try {
+			transList = trans.scale(Double.parseDouble(sizeX), Double.parseDouble(sizeY), pa);
+			fixelList.clear();
+			p1 = transList.get(0);
+			p2 = transList.get(1);
+			p3 = transList.get(2);
+			p4 = transList.get(3);
+			fixelList.addAll(bla.start(p1, p2));
+			fixelList.addAll(bla.start(p3, p2));
+			fixelList.addAll(bla.start(p4, p3));
+			fixelList.addAll(bla.start(p1, p4));
+		} catch (NumberFormatException ee) {
+			Board.clickedPos.clear();
+		}
+
 	}
-	
+
 	@Override
 	void clipClip(Position pa, Position pb) {
+		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
+
+		transList = clipping.start(p1, p2, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
+		transList = clipping.start(p2, p3, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
+		transList = clipping.start(p3, p4, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
+		transList = clipping.start(p1, p4, pa, pb);
+		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 	}
 }
