@@ -69,16 +69,16 @@ class Point2 extends Polygon {
 
 	@Override
 	void clipClip(Position pa, Position pb) {
-		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
-		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
-		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
-		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
-		clippedFixelList.clear();
-
-		if (p1.x >= xMin && p1.x <= xMax) {
-			if (p1.y >= yMin && p1.y <= yMax)
-				clippedFixelList.add(p1);
-		}
+//		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
+//		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
+//		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
+//		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
+//		clippedFixelList.clear();
+//
+//		if (p1.x >= xMin && p1.x <= xMax) {
+//			if (p1.y >= yMin && p1.y <= yMax)
+//				clippedFixelList.add(p1);
+//		}
 
 	}
 }
@@ -206,25 +206,7 @@ class Circle extends Polygon {
 
 	@Override
 	void clipClip(Position pa, Position pb) {
-		int xMin = (pa.x < pb.x) ? pa.x : pb.x;
-		int xMax = (pa.x > pb.x) ? pa.x : pb.x;
-		int yMin = (pa.y < pb.y) ? pa.y : pb.y;
-		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
-
-		double scaleSX = (Program.panX / Program.gap) / (xMax - xMin);
-		double scaleSY = (Program.panY / Program.gap) / (yMax - yMin);
-		Transform transClip = new Transform(new ArrayList<Position>(Arrays.asList(p1, new Position(p1.x + rad, p1.y))));
-		transList = transClip.scale(scaleSX, scaleSY, new Position(xMin, yMin));
-		
-		clippedFixelList.clear();
-		clippedFixelList.addAll(bca.start(transList.get(0),
-				(int) Math.abs(Math.sqrt(Math.pow(transList.get(1).x - transList.get(0).x, 2)
-						+ Math.pow(transList.get(1).y - transList.get(0).y, 2)))));
-
-		// viewPort
-		transClip = new Transform(clippedFixelList);
-		clippedFixelList = transClip.translation(-xMin, -yMin);
 	}
 }
 
