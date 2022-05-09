@@ -36,6 +36,7 @@ public class LineClipping {
 	double P1, P2, P3, P4;
 	double q1, q2, q3, q4;
 	double u1, u2, u3, u4;
+	double realU1, realU2;
 	
 	Transform trans;
 
@@ -205,10 +206,14 @@ public class LineClipping {
 		and_bit = p1_bit & p2_bit;
 		
 		// p, q, u값 구하기
-		P1 = x2 - x1;
-		P2 = x1 - x2;
-		P3 = y2 - y1;
-		P4 = y1 - y2;
+//		P1 = -Math.abs(x1 - x2);
+//		P2 = Math.abs(x1 - x2);
+//		P3 = -Math.abs(y1 - y2);
+//		P4 = Math.abs(x1 - x2);
+		P1 = x1 - x2;
+		P2 = x2 - x1;
+		P3 = y1 - y2;
+		P4 = y2 - y1;
 		
 		q1 = x1 - xMin;
 		q2 = xMax - x1;
@@ -219,6 +224,44 @@ public class LineClipping {
 		u2 = q2 / P2;
 		u3 = q3 / P3;
 		u4 = q4 / P4;
+		
+		realU1 = 0;
+		realU2 = 0;
+		
+		// 음수인 u값 버림
+		if (u1 < 0)
+			u1 = 10;
+		if (u2 < 0)
+			u2 = 10;
+		if (u3 < 0)
+			u3 = 10;
+		if (u4 < 0)
+			u4 = 10;
+		// u1, u2를 구함
+		if (u1 < u3)
+			realU1 = u1;
+		if (u2 < u4) {
+			if (realU1 == 0)
+				realU1 = u2;
+			else
+				realU2 = u2;
+		}
+		if ( u3 < u1) {
+			if (realU1 == 0)
+				realU1 = u3;
+			else
+				realU2 = u3;
+		}
+		if ( u4 < u2) {
+			if (realU1 == 0)
+				realU1 = u4;
+			else
+				realU2 = u4;
+		}
+		System.out.println(realU1 + ", " + realU2);
+		
+		list.add(new Position(x1 + P2 * realU1, y1 + P4 * realU1));
+		list.add(new Position(x1 + P2 * realU2, y1 + P4 * realU2));
 				
 		return list;
 	}

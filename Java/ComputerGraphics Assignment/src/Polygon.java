@@ -143,7 +143,7 @@ class Line extends Polygon {
 		int yMax = (pa.y > pb.y) ? pa.y : pb.y;
 		clippedFixelList.clear();
 
-		transList = clipping.start(p1, p2, pa, pb);
+		transList = clipping.start2(p1, p2, pa, pb);
 		clippedFixelList.addAll(bla.start(transList.get(0), transList.get(1)));
 	}
 }
