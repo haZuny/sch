@@ -20,6 +20,7 @@ class Game {
 	boolean isEnd;
 	char lastChar;
 
+	// 생성자_초기화
 	public Game() {
 		words = new String[26];
 		words[0] = "arc";
