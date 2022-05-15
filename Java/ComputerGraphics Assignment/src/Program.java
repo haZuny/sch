@@ -23,8 +23,8 @@ public class Program extends JFrame {
 	// 그림 영역 사이즈
 	static int panX = 500;
 	static int panY = 500;
-	static int gap = 5;
-	boolean gridFlag = true;
+	static int gap = 1;
+	boolean gridFlag = false;
 
 	// 선택된 레이블
 	static int NULL = 0;

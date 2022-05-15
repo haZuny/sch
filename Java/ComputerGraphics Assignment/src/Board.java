@@ -73,13 +73,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 				}
 			}
 		}
-
-		// 마우스 올라가있는 영역 색칠
-		if (mousePos != null) {
-			g.setColor(Color.RED);
-			g.fillRect(mousePos.x * gap, mousePos.y * gap, gap, gap);
-			g.setColor(Color.black);
-		}
 	}
 
 	// 마우스 동작
@@ -91,14 +84,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mousePos.x = e.getX() / gap;
-		mousePos.y = e.getY() / gap;
-		repaint();
-
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		mousePos.x = e.getX();
+		mousePos.y = e.getY();
 		Position p = new Position(mousePos.x, mousePos.y);
 
 		// 점 그리기
