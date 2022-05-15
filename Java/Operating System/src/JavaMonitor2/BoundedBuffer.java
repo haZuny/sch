@@ -1,12 +1,12 @@
 package JavaMonitor2;
 
-public class BounedeBuffer<E> {
+public class BoundedBuffer<E> {
 	private static final int BUFFER_SIZE = 5;
 
 	private int count, in, out;
 	private E[] buffer;
 
-	public BounedeBuffer() {
+	public BoundedBuffer() {
 		count = 0;
 		in = 0;
 		out = 0;
@@ -50,7 +50,7 @@ public class BounedeBuffer<E> {
 	}
 
 	public static void main(String[] args) {
-		BounedeBuffer<Integer> buf = new BounedeBuffer<>();
+		BoundedBuffer<Integer> buf = new BoundedBuffer<>();
 		Producer prod = new Producer(buf);
 		Consumer cons = new Consumer(buf);
 
@@ -62,11 +62,11 @@ public class BounedeBuffer<E> {
 
 //생산자 스레드
 class Producer extends Thread {
-	BounedeBuffer<Integer> buffer;
+	BoundedBuffer<Integer> buffer;
 	int num;
 
 	// 생성자
-	Producer(BounedeBuffer<Integer> buf) {
+	Producer(BoundedBuffer<Integer> buf) {
 		this.buffer = buf;
 	}
 
@@ -79,10 +79,10 @@ class Producer extends Thread {
 
 // 소비자 스레드
 class Consumer extends Thread {
-	BounedeBuffer<Integer> buffer;
+	BoundedBuffer<Integer> buffer;
 
 	// 생성자
-	Consumer(BounedeBuffer<Integer> buf) {
+	Consumer(BoundedBuffer<Integer> buf) {
 		this.buffer = buf;
 	}
 
