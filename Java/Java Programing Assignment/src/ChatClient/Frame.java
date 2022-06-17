@@ -14,7 +14,7 @@ public class Frame extends JFrame {
 	public static User user;
 
 	// 메인 메소드
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// 프레임 생성
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

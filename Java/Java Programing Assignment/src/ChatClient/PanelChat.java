@@ -49,7 +49,7 @@ public class PanelChat extends JPanel{
 			// TODO Auto-generated method stub
 			
 			try {
-				Frame.user.send();
+				Frame.user.sendText();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
