@@ -36,7 +36,7 @@ public class Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Frame() {
-		setTitle("\uCC44\uD305 \uD074\uB77C\uC774\uC5B8\uD2B8");
+		setTitle(user.userID);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 440);

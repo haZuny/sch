@@ -3,23 +3,24 @@ package ChatClient;
 import java.awt.Image;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class Message implements Serializable{
 	public static final int typeText = 1;
 	public static final int typeImage = 2;
 	
 	public int type;
-	byte[] contentBuf;
+	public byte[] contentBuf;
 	public String userID;
 	
-	public InetAddress addr;
+	public ArrayList<InetAddress> addrToSend;
 	
 	
-	public Message(int type, byte[] content, String user, InetAddress address) {
+	public Message(int type, byte[] content, String user, ArrayList<InetAddress> address) {
 		this.type = type;
 		contentBuf = content;
 		userID = user;
-		addr = address;
+		addrToSend = address;
 	}
 
 }

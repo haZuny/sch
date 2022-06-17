@@ -15,13 +15,14 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class User {
-	final String serverIP = "192.168.96.53";
+	final String serverIP = "127.0.0.1";
 	
 	DatagramSocket socket;
 	DatagramPacket packet;
@@ -31,20 +32,20 @@ public class User {
 	
 	// 사용자 정
 	String userID = "hj3175791";
-	InetAddress addrUser;
-	InetAddress[] addrToDest;
+	ArrayList<InetAddress> addrToSend;
 
 	public User() throws IOException {
-		socket = new DatagramSocket(portReceive);
 		addrServer = InetAddress.getByName(serverIP);
-		addrUser = InetAddress.getLocalHost();
+		addrToSend = new ArrayList<>();
+		addrToSend.add(InetAddress.getByName("127.0.0.1"));
+		socket = new DatagramSocket(portReceive);
 	}
 
 	// 수신
 	public void receive() throws IOException, ClassNotFoundException {
 		while (true) {
 			// 패킷 받음
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[2048];
 			packet = new DatagramPacket(buf, buf.length);
 			socket.receive(packet);
 			
@@ -57,16 +58,18 @@ public class User {
 			case 1: 
 				PanelChat.textArea.append(msg.userID + " : " + new String(msg.contentBuf) + "\n");
 				break;
-				
 			}
 		}
 	}
 
 	// 텍스트 송신
 	public void sendText() throws IOException {
+		// 소켓 생성
+		DatagramSocket socketSend = new DatagramSocket();
+		
 		// 메세지 객체 생성
 		String s = PanelChat.textField.getText();
-		Message msg = new Message(1, s.getBytes(), userID, addrUser);
+		Message msg = new Message(1, s.getBytes(), userID, addrToSend);
 		
 		// 직렬화
 		byte[] buffer;
@@ -79,7 +82,8 @@ public class User {
 		// 패킷 생성 후 전송
 		DatagramPacket packet;
 		packet = new DatagramPacket(buffer, buffer.length, addrServer, portSend);
-		socket.send(packet);
+		socketSend.send(packet);
+		socketSend.close();
 
 		// gui 표시
 		PanelChat.textField.setText("");
