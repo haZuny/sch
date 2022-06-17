@@ -48,6 +48,7 @@ public class Server{
 				DatagramPacket packet;
 				packet = new DatagramPacket(buf, buf.length, msg.addr, portSend);
 				
+				System.out.println(msg.userID + " send message");
 				socket.send(packet);
 			}
 		}
