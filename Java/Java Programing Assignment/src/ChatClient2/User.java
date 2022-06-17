@@ -1,4 +1,4 @@
-package ChatClient;
+package ChatClient2;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -26,12 +26,12 @@ public class User {
 	
 	DatagramSocket socket;
 	DatagramPacket packet;
-	final int portReceive = 6000; // 수신용
+	final int portReceive = 7000; // 수신용
 	final int portSend = 5000; // 송신용
 	InetAddress addrServer;
 	
 	// 사용자 정
-	String userID = "hj3175791";
+	String userID = "gkwns5791";
 	ArrayList<InetAddress> addrToSend;
 
 	public User() throws IOException {
@@ -52,7 +52,7 @@ public class User {
 			// 역직렬화
 			InputStream is = new ByteArrayInputStream(buf);
 			ObjectInputStream ois = new ObjectInputStream(is);
-			Message msg = (Message) ois.readObject();
+			ChatClient.Message msg = (ChatClient.Message) ois.readObject();
 			
 			switch(msg.type) {
 			case 1: 
@@ -69,7 +69,7 @@ public class User {
 		
 		// 메세지 객체 생성
 		String s = PanelChat.textField.getText();
-		Message msg = new Message(1, s.getBytes(), userID, addrToSend);
+		ChatClient.Message msg = new ChatClient.Message(1, s.getBytes(), userID, addrToSend);
 		
 		// 직렬화
 		byte[] buffer;
