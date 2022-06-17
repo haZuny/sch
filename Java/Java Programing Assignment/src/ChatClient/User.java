@@ -21,6 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class User {
+	final String serverIP = "192.168.96.53";
+	
 	DatagramSocket socket;
 	DatagramPacket packet;
 	final int portReceive = 6000; // ¼ö½Å¿ë
@@ -34,7 +36,7 @@ public class User {
 
 	public User() throws IOException {
 		socket = new DatagramSocket(portReceive);
-		addrServer = InetAddress.getByName("220.69.208.121");
+		addrServer = InetAddress.getByName(serverIP);
 		addrUser = InetAddress.getLocalHost();
 	}
 

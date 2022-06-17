@@ -24,11 +24,9 @@ public class Server{
 		DatagramPacket packet;
 		final int portReceive = 5000;	// 수신용
 		final int portSend = 6000;	// 송신용
-		InetAddress addrServer;
 		
 		public Server() throws IOException{
 			socket = new DatagramSocket(portReceive);
-			addrServer = InetAddress.getByName("220.69.208.121");
 		}
 		
 		// 수신 및 송신
