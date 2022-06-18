@@ -21,28 +21,26 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class User {
+public class User{
+	InetAddress addrServer;
 	final String serverIP = "127.0.0.1";
-	
 	DatagramSocket socket;
 	DatagramPacket packet;
-	String id;
-	final int portReceive;; // 수신용
+	final int portReceive; // 수신용
 	final int portSend = 5000; // 송신용
-	InetAddress addrServer;
 	
-	// 사용자 정
-	String userID = "gkwns5791";
+	// 사용자 정보
+	String userID ;
 	ArrayList<Integer> portToSend;
 
-	public User(String id, int port) throws IOException {
-		this.id = id;
-		portReceive = 5000+port;
+	public User(String id, int port) throws IOException{
+		userID = id;
+		portReceive = 7000+port;
 		
 		addrServer = InetAddress.getByName(serverIP);
 		portToSend = new ArrayList<>();
 		portToSend.add(portReceive);
-		portToSend.add(6000);
+		portToSend.add(7000);
 		socket = new DatagramSocket(portReceive);
 	}
 
@@ -57,10 +55,10 @@ public class User {
 			// 역직렬화
 			InputStream is = new ByteArrayInputStream(buf);
 			ObjectInputStream ois = new ObjectInputStream(is);
-			ChatClient.Message msg = (ChatClient.Message) ois.readObject();
+			Message msg = (Message) ois.readObject();
 			
 			switch(msg.type) {
-			case 1: 
+			case 1: // 텍스트
 				PanelChat.textArea.append(msg.userID + " : " + new String(msg.contentBuf) + "\n");
 				break;
 			}
@@ -74,7 +72,7 @@ public class User {
 		
 		// 메세지 객체 생성
 		String s = PanelChat.textField.getText();
-		ChatClient.Message msg = new ChatClient.Message(1, s.getBytes(), userID, portToSend);
+		Message msg = new Message(1, s.getBytes(), userID, portToSend);
 		
 		// 직렬화
 		byte[] buffer;

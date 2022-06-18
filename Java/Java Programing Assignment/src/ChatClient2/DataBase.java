@@ -1,8 +1,6 @@
-package ChatClient;
+package ChatClient2;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DataBase {
 
@@ -84,55 +82,9 @@ public class DataBase {
 		// 발견 못하면 -1 반환
 		return -1;
 	}
-	
-	//ID로 포트 검색
-	static int searchID(String ID) throws SQLException {
-		Connection con = makeConnection();
-
-		try {
-			Statement stmt = con.createStatement();
-			String sqlS = "SELECT ID, PORT FROM USERS WHERE ID = \"" + ID +  "\"";
-			System.out.println(sqlS);
-			ResultSet rs = stmt.executeQuery(sqlS);
-
-			// ID 존재하면 port 반환
-			while (rs.next()) {
-				int port = rs.getInt("PORT");
-				con.close();
-				return port;
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			System.exit(0);
-		}
-		con.close();
-		// 발견 못하면 -1 반환
-		return -1;
-	}
-	
-	
-	// 친구 목록 반환
-	public static HashMap getFriendsID() throws SQLException{
-		HashMap<String, Integer> friendData = new HashMap<>();
-		
-		Connection con = makeConnection();
-
-		try {
-			Statement stmt = con.createStatement();
-			String sqlS = "SELECT ID, PORT FROM USERS";
-			System.out.println(sqlS);
-			ResultSet rs = stmt.executeQuery(sqlS);
-
-			// ID 존재하면 port 반환
-			while (rs.next()) {
-				friendData.put(rs.getString("ID"), rs.getInt("PORT"));
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			System.exit(0);
-		}
-		con.close();
-		return friendData;
-	}
-	
+//	
+//	// port 번호 반환
+//	public static int getPort(String ID) {
+//		
+//	}
 }

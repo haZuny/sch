@@ -35,7 +35,7 @@ public class User{
 
 	public User(String id, int port) throws IOException{
 		userID = id;
-		portReceive = 5000+port;
+		portReceive = 7000+port;
 		
 		addrServer = InetAddress.getByName(serverIP);
 		portToSend = new ArrayList<>();
@@ -47,8 +47,6 @@ public class User{
 	// 수신
 	public void receive() throws IOException, ClassNotFoundException {
 		while (true) {
-			System.out.println("aa");
-			
 			// 패킷 받음
 			byte[] buf = new byte[2048];
 			packet = new DatagramPacket(buf, buf.length);
@@ -61,19 +59,19 @@ public class User{
 			
 			switch(msg.type) {
 			case 1: // 텍스트
-				PanelChat.textArea.append(msg.userID + " : " + new String(msg.contentBuf) + "\n");
+				PanelMain.textArea_MSG.append(msg.userID + " : " + new String(msg.contentBuf) + "\n");
 				break;
 			}
 		}
 	}
 
 	// 텍스트 송신
-	public void sendText() throws IOException {
+	public void sendText(String txt) throws IOException {
 		// 소켓 생성
 		DatagramSocket socketSend = new DatagramSocket();
 		
 		// 메세지 객체 생성
-		String s = PanelChat.textField.getText();
+		String s = txt;
 		Message msg = new Message(1, s.getBytes(), userID, portToSend);
 		
 		// 직렬화
@@ -89,8 +87,5 @@ public class User{
 		packet = new DatagramPacket(buffer, buffer.length, addrServer, portSend);
 		socketSend.send(packet);
 		socketSend.close();
-
-		// gui 표시
-		PanelChat.textField.setText("");
 	}
 }

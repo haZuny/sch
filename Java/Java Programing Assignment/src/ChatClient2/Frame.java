@@ -14,16 +14,18 @@ import ChatClient.PanelSignUp;
 public class Frame extends JFrame {
 	
 	// 화면 상수
-	final int monitorSignIn = 1;
-	final int monitorSignUP = 2;
-	final int monitorChat = 3;
+	static final int monitorSignIn = 1;
+	static final int monitorSignUP = 2;
+	static final int monitorChat = 3;
 	
 	// 패널 변수
-	PanelSignIn panel_signIn;
-	PanelSignUp panel_signUp;
-	PanelChat panel_chat;
+	static PanelSignIn panel_signIn;
+	static PanelSignUp panel_signUp;
+	static PanelChat panel_chat;
 
 	private JPanel contentPane;
+	
+	// User 객체
 	public static User user;
 
 	// 메인 메소드
@@ -39,9 +41,12 @@ public class Frame extends JFrame {
 				}
 			}
 		});
-		
-		// 사용자 객체 생성
-		user = new User();
+		while(true) {
+			if(user != null) {
+				break;
+			}
+			System.out.println("로그인 대기중");
+		}
 		user.receive();
 	}
 
@@ -49,7 +54,7 @@ public class Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Frame() {
-		setTitle(user.userID);
+		setTitle("채팅 클라이언트");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 440);
@@ -76,8 +81,8 @@ public class Frame extends JFrame {
 		panel_chat.setVisible(false);
 	}
 	
-	
-	void changeMonitor(int monitor) {
+	// 화면 변경
+	public static void changeMonitor(int monitor) {
 		panel_signIn.setVisible(false);
 		panel_signUp.setVisible(false);
 		panel_chat.setVisible(false);
@@ -94,5 +99,14 @@ public class Frame extends JFrame {
 			break;
 			
 		}
+	}
+	
+	// 사용자 생성
+	public static void generateUser(String id, int port) throws IOException, ClassNotFoundException {
+		user = new User(id, port);
+		System.out.println(user.portReceive);
+		System.out.println(user.portSend);
+		System.out.println(user.userID);
+		
 	}
 }

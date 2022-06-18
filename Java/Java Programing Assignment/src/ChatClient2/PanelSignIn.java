@@ -1,4 +1,4 @@
-package ChatClient;
+package ChatClient2;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -61,8 +61,8 @@ public class PanelSignIn extends JPanel {
 					passwordField_PW.setText("");
 				}
 				else {
+					Frame.changeMonitor(Frame.monitorChat);
 					Frame.generateUser(id, port);					
-					Frame.changeMonitor(Frame.monitorMain);
 				}
 			} catch (SQLException | ClassNotFoundException | IOException e1) {
 				e1.printStackTrace();

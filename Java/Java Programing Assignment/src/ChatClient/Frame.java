@@ -16,12 +16,12 @@ public class Frame extends JFrame {
 	// 화면 상수
 	static final int monitorSignIn = 1;
 	static final int monitorSignUP = 2;
-	static final int monitorChat = 3;
+	static final int monitorMain = 3;
 	
 	// 패널 변수
 	static PanelSignIn panel_signIn;
 	static PanelSignUp panel_signUp;
-	static PanelChat panel_chat;
+	static PanelMain panel_main;
 
 	private JPanel contentPane;
 	
@@ -41,6 +41,13 @@ public class Frame extends JFrame {
 				}
 			}
 		});
+		while(true) {
+			if(user != null) {
+				break;
+			}
+			System.out.println("로그인 대기중");
+		}
+		user.receive();
 	}
 
 	/**
@@ -67,18 +74,18 @@ public class Frame extends JFrame {
 		contentPane.add(panel_signUp);
 		panel_signUp.setVisible(false);
 
-		// 채팅
-		panel_chat = new PanelChat();
-		panel_chat.setBounds(0, 0, 600, 400);
-		contentPane.add(panel_chat);
-		panel_chat.setVisible(false);
+		// 메인
+		panel_main = new PanelMain();
+		panel_main.setBounds(0, 0, 600, 400);
+		contentPane.add(panel_main);
+		panel_main.setVisible(false);
 	}
 	
 	// 화면 변경
 	public static void changeMonitor(int monitor) {
 		panel_signIn.setVisible(false);
 		panel_signUp.setVisible(false);
-		panel_chat.setVisible(false);
+		panel_main.setVisible(false);
 		
 		switch(monitor) {
 		case monitorSignIn:
@@ -87,8 +94,10 @@ public class Frame extends JFrame {
 		case monitorSignUP:
 			panel_signUp.setVisible(true);
 			break;
-		case monitorChat:
-			panel_chat.setVisible(true);
+		case monitorMain:
+			panel_main.setVisible(true);
+			panel_main.lblDd.setText("ID: " + user.userID);
+			panel_main.lblPort.setText("Port: " + user.portReceive);
 			break;
 			
 		}
