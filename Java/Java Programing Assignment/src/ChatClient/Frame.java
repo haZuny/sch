@@ -35,16 +35,15 @@ public class Frame extends JFrame {
 			public void run() {
 				try {
 					Frame frame = new Frame();
+					System.out.println(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		while(true) {
-			if(user != null) {
-				break;
-			}
+		int a = 1;
+		while(user == null) {
 			System.out.println("로그인 대기중");
 		}
 		user.receive();

@@ -37,6 +37,7 @@ public class PanelMain extends JPanel {
 	JScrollPane scrollPane_MSG;
 	JLabel lblDd;
 	JLabel lblPort;
+	static JPanel panel_friend;
 
 	/**
 	 * Create the panel.
@@ -62,28 +63,10 @@ public class PanelMain extends JPanel {
 		scrollPane_friend.setBounds(0, 50, 300, 350);
 		panelLeft.add(scrollPane_friend);
 
-		JPanel panel_friend = new JPanel();
+		panel_friend = new JPanel();
 		scrollPane_friend.setViewportView(panel_friend);
 		panel_friend.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		panel_friend.setPreferredSize(new Dimension(300, 350));
-
-		// 模备 格废 眠啊
-		HashMap<String, Integer> friends = null;
-		Panel_friendList fl;
-		try {
-			friends = DataBase.getFriendsID();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (String id : friends.keySet()) {
-			if (id.equals(Frame.user.userID)) {
-			} else {
-				fl = new Panel_friendList(id, friends.get(id));
-				fl.setPreferredSize(new Dimension(270, 50));
-				panel_friend.add(fl);
-			}
-		}
 
 		JPanel panelRight = new JPanel();
 		panelRight.setBounds(300, 0, 300, 400);
@@ -130,6 +113,27 @@ public class PanelMain extends JPanel {
 			}
 			textField_MSG.setText("");
 			scrollPane_MSG.getVerticalScrollBar().setValue(scrollPane_MSG.getVerticalScrollBar().getMaximum());
+		}
+	}
+
+	// 模备 格废 眠啊
+	public static void updateFriends() {
+		// 模备 格废 眠啊
+		HashMap<String, Integer> friends = null;
+		Panel_friendList fl;
+		try {
+			friends = DataBase.getFriendsID();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (String id : friends.keySet()) {
+			if (id.equals(Frame.user.userID)) {
+			} else {
+				fl = new Panel_friendList(id, friends.get(id));
+				fl.setPreferredSize(new Dimension(270, 50));
+				panel_friend.add(fl);
+			}
 		}
 	}
 }
