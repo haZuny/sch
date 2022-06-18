@@ -21,29 +21,34 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class User {
-	final String serverIP = "210.104.172.95";
-	
+public class User{
+	InetAddress addrServer;
+	final String serverIP = "127.0.0.1";
 	DatagramSocket socket;
 	DatagramPacket packet;
-	final int portReceive = 6000; // 수신용
+	final int portReceive; // 수신용
 	final int portSend = 5000; // 송신용
-	InetAddress addrServer;
 	
-	// 사용자 정
-	String userID = "hj3175791";
-	ArrayList<InetAddress> addrToSend;
+	// 사용자 정보
+	String userID ;
+	ArrayList<Integer> portToSend;
 
-	public User() throws IOException {
+	public User(String id, int port) throws IOException{
+		userID = id;
+		portReceive = 5000+port;
+		
 		addrServer = InetAddress.getByName(serverIP);
-		addrToSend = new ArrayList<>();
-		addrToSend.add(InetAddress.getLocalHost());
+		portToSend = new ArrayList<>();
+		portToSend.add(portReceive);
+		portToSend.add(7000);
 		socket = new DatagramSocket(portReceive);
 	}
 
 	// 수신
 	public void receive() throws IOException, ClassNotFoundException {
 		while (true) {
+			System.out.println("aa");
+			
 			// 패킷 받음
 			byte[] buf = new byte[2048];
 			packet = new DatagramPacket(buf, buf.length);
@@ -55,7 +60,7 @@ public class User {
 			Message msg = (Message) ois.readObject();
 			
 			switch(msg.type) {
-			case 1: 
+			case 1: // 텍스트
 				PanelChat.textArea.append(msg.userID + " : " + new String(msg.contentBuf) + "\n");
 				break;
 			}
@@ -69,7 +74,7 @@ public class User {
 		
 		// 메세지 객체 생성
 		String s = PanelChat.textField.getText();
-		Message msg = new Message(1, s.getBytes(), userID, addrToSend);
+		Message msg = new Message(1, s.getBytes(), userID, portToSend);
 		
 		// 직렬화
 		byte[] buffer;

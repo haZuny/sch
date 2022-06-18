@@ -46,14 +46,11 @@ public class Server {
 
 			// ¼Û½Å
 			DatagramPacket packet;
-			for (InetAddress addr : msg.addrToSend) {
-				System.out.println(addr);
+			for (int port : msg.portToSend) {
+				System.out.println(port);
 				System.out.println(msg.userID + " send message \"" + new String(msg.contentBuf) + "\"");
 				
-				packet = new DatagramPacket(buf, buf.length, addr, portSend);
-				socket.send(packet);
-				
-				packet = new DatagramPacket(buf, buf.length, addr, 7000);
+				packet = new DatagramPacket(buf, buf.length, InetAddress.getByName("127.0.0.1"), port);
 				socket.send(packet);
 			}
 		}

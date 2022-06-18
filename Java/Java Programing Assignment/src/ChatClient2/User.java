@@ -22,22 +22,27 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class User {
-	final String serverIP = "210.104.172.95";
+	final String serverIP = "127.0.0.1";
 	
 	DatagramSocket socket;
 	DatagramPacket packet;
-	final int portReceive = 7000; // 수신용
+	String id;
+	final int portReceive;; // 수신용
 	final int portSend = 5000; // 송신용
 	InetAddress addrServer;
 	
 	// 사용자 정
 	String userID = "gkwns5791";
-	ArrayList<InetAddress> addrToSend;
+	ArrayList<Integer> portToSend;
 
-	public User() throws IOException {
+	public User(String id, int port) throws IOException {
+		this.id = id;
+		portReceive = 5000+port;
+		
 		addrServer = InetAddress.getByName(serverIP);
-		addrToSend = new ArrayList<>();
-		addrToSend.add(InetAddress.getLocalHost());
+		portToSend = new ArrayList<>();
+		portToSend.add(portReceive);
+		portToSend.add(6000);
 		socket = new DatagramSocket(portReceive);
 	}
 
@@ -69,7 +74,7 @@ public class User {
 		
 		// 메세지 객체 생성
 		String s = PanelChat.textField.getText();
-		ChatClient.Message msg = new ChatClient.Message(1, s.getBytes(), userID, addrToSend);
+		ChatClient.Message msg = new ChatClient.Message(1, s.getBytes(), userID, portToSend);
 		
 		// 직렬화
 		byte[] buffer;

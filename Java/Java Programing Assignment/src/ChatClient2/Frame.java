@@ -8,7 +8,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ChatClient.PanelSignIn;
+import ChatClient.PanelSignUp;
+
 public class Frame extends JFrame {
+	
+	// 화면 상수
+	final int monitorSignIn = 1;
+	final int monitorSignUP = 2;
+	final int monitorChat = 3;
+	
+	// 패널 변수
+	PanelSignIn panel_signIn;
+	PanelSignUp panel_signUp;
+	PanelChat panel_chat;
 
 	private JPanel contentPane;
 	public static User user;
@@ -45,8 +58,41 @@ public class Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		PanelChat panel = new PanelChat();
-		panel.setBounds(0, 0, 600, 400);
-		contentPane.add(panel);
+		// 로그인
+		panel_signIn = new PanelSignIn();
+		panel_signIn.setBounds(0, 0, 600, 400);
+		contentPane.add(panel_signIn);
+		
+		// 가입
+		panel_signUp = new PanelSignUp();
+		panel_signUp.setBounds(0, 0, 600, 400);
+		contentPane.add(panel_signUp);
+		panel_signUp.setVisible(false);
+
+		// 채팅
+		panel_chat = new PanelChat();
+		panel_chat.setBounds(0, 0, 600, 400);
+		contentPane.add(panel_chat);
+		panel_chat.setVisible(false);
+	}
+	
+	
+	void changeMonitor(int monitor) {
+		panel_signIn.setVisible(false);
+		panel_signUp.setVisible(false);
+		panel_chat.setVisible(false);
+		
+		switch(monitor) {
+		case monitorSignIn:
+			panel_signIn.setVisible(true);
+			break;
+		case monitorSignUP:
+			panel_signUp.setVisible(true);
+			break;
+		case monitorChat:
+			panel_chat.setVisible(true);
+			break;
+			
+		}
 	}
 }

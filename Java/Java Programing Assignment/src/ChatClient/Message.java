@@ -13,14 +13,14 @@ public class Message implements Serializable{
 	public byte[] contentBuf;
 	public String userID;
 	
-	public ArrayList<InetAddress> addrToSend;
+	public ArrayList<Integer> portToSend;
 	
 	
-	public Message(int type, byte[] content, String user, ArrayList<InetAddress> address) {
+	public Message(int type, byte[] content, String user, ArrayList<Integer> portsToSend) {
 		this.type = type;
 		contentBuf = content;
 		userID = user;
-		addrToSend = address;
+		portToSend = portsToSend;
 	}
 
 }
