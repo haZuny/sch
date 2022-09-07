@@ -2,16 +2,18 @@ import queue
 
 # 상태를 나타내는 클래스, f(n) 값을 저장한다. 
 class State:
-  def __init__(self, board, goal, moves=0):
+  def __init__(self, board, goal, moves=0, route=[]):
     self.board = board
     self.moves = moves
     self.goal = goal
+    self.route = route
 
   # i1과 i2를 교환하여서 새로운 상태를 반환한다. 
   def get_new_board(self, i1, i2, moves):
     new_board = self.board[:]
     new_board[i1], new_board[i2] = new_board[i2], new_board[i1]
-    return State(new_board, self.goal, moves)
+    self.route.append(new_board)
+    return State(new_board, self.goal, moves, self.route)
 
   # 자식 노드를 확장하여서 리스트에 저장하여서 반환한다. 
   def expand(self, moves):
@@ -40,6 +42,7 @@ class State:
   def g(self):
     return self.moves
 
+  # 객체 비교를 정의한다.
   def __eq__(self, other):
     return self.board == other.board
  
@@ -76,7 +79,7 @@ open_queue.put(State(puzzle, goal))
 
 closed_queue = [ ]
 moves = 0
-while not open_queue.empty():
+while not open_queue.empty():  
 
 #  디버깅을 위한 코드
 #  print("START OF OPENQ")
@@ -90,6 +93,14 @@ while not open_queue.empty():
       print("탐색 성공")
       print("open queue 길이=", open_queue.qsize())
       print("closed queue 길이=", len(closed_queue))
+      print("------------------")
+      print("탐색 과정: ")
+      for list in current.route:
+        print(list[:3])
+        print(list[3:6])
+        print(list[6:9])
+        print("↓")
+
       break
   moves = current.moves+1
   for state in current.expand(moves):
