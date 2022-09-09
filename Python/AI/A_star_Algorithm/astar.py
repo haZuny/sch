@@ -1,8 +1,15 @@
+#===============================
+# 20194122 권하준
+#===============================
+
 import queue
+from xml.dom import pulldom
+
+BOADR_SIZE = 3
 
 # 상태를 나타내는 클래스, f(n) 값을 저장한다. 
 class State:
-  def __init__(self, board, goal, moves=0, route=[]):
+  def __init__(self, board, goal, moves = 0, route = []):
     self.board = board
     self.moves = moves
     self.goal = goal
@@ -12,20 +19,22 @@ class State:
   def get_new_board(self, i1, i2, moves):
     new_board = self.board[:]
     new_board[i1], new_board[i2] = new_board[i2], new_board[i1]
-    self.route.append(new_board)
-    return State(new_board, self.goal, moves, self.route)
+    route2 = self.route[:]
+    route2.append(new_board)
+    return State(new_board, self.goal, moves, route2)
 
   # 자식 노드를 확장하여서 리스트에 저장하여서 반환한다. 
   def expand(self, moves):
     result = []
     i = self.board.index(0)		# 숫자 0(빈칸)의 위치를 찾는다. 
-    if not i in [0, 1, 2] :		# UP 연산자 
+    route = self.route
+    if not i < BOADR_SIZE :		# UP 연산자 
       result.append(self.get_new_board(i, i-3, moves))
-    if not i in [0, 3, 6] :		# LEFT 연산자 
+    if not i % BOADR_SIZE == 0 :		# LEFT 연산자 
       result.append(self.get_new_board(i, i-1, moves))
-    if not i in [2, 5, 8]:		# DOWN 연산자 
+    if not i % BOADR_SIZE == 2:		# RIGHT 연산자 
       result.append(self.get_new_board(i, i+1, moves))
-    if not i in [6, 7, 8]:		# RIGHT 연산자 
+    if not i >= BOADR_SIZE * (BOADR_SIZE - 1):		# DOWN 연산자 
       result.append(self.get_new_board(i, i+3, moves))
     return result
 
@@ -55,16 +64,23 @@ class State:
 
   # 객체를 출력할 때 사용한다. 
   def __str__(self):
+    strRoute = "\n탐색경로: \n"
+    for ls in self.route:
+      strRoute += str(ls[:3]) +"\n"+\
+                  str(ls[3:6]) +"\n"+\
+                  str(ls[6:]) +"\n↓\n"
+
     return "------------------ f(n)=" + str(self.f()) +"\n"+\
     "------------------ h(n)=" + str(self.h()) +"\n"+\
     "------------------ g(n)=" + str(self.g()) +"\n"+\
     str(self.board[:3]) +"\n"+\
     str(self.board[3:6]) +"\n"+\
     str(self.board[6:]) +"\n"+\
-    "------------------"
+    "------------------"+"\n"+\
+    strRoute +"\n------------------\n"
 
 # 초기 상태
-puzzle = [8, 3, 5, 
+puzzle = [8, 3, 5,
           7, 1, 6, 
           0, 2, 4]
 
@@ -75,7 +91,7 @@ goal = [1, 2, 3,
 
 # open 리스트는 우선순위 큐로 생성한다. 
 open_queue = queue.PriorityQueue()
-open_queue.put(State(puzzle, goal))
+open_queue.put(State(puzzle, goal, route=[puzzle,]))
 
 closed_queue = [ ]
 moves = 0
@@ -94,13 +110,6 @@ while not open_queue.empty():
       print("open queue 길이=", open_queue.qsize())
       print("closed queue 길이=", len(closed_queue))
       print("------------------")
-      print("탐색 과정: ")
-      for list in current.route:
-        print(list[:3])
-        print(list[3:6])
-        print(list[6:9])
-        print("↓")
-
       break
   moves = current.moves+1
   for state in current.expand(moves):
