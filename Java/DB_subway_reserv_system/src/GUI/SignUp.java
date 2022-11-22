@@ -1,6 +1,7 @@
 package GUI;
 
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -17,7 +18,7 @@ import DB.DB_USER;
 
 public class SignUp extends JPanel {
 	GUI.MainFrame window;	// 프레임
-	
+		
 	private JTextField textField_userName;
 	private JTextField textField_pw;
 	private JTextField textField_phoneNum;
@@ -85,6 +86,19 @@ public class SignUp extends JPanel {
 
 	}
 	
+	// 중복체크 메소드
+	class OverlapBtnListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String userName = textField_userName.getText();
+			// 중복 여부 확인
+			boolean check = DB_USER.checkUserNameOverlap(userName);
+			
+			// 중복 아니면 가입 허용
+		}
+	}
+	
+	
 	// 회원가입 버튼 이벤트
 	class signUpBtnListener implements ActionListener{
 		@Override
@@ -95,11 +109,24 @@ public class SignUp extends JPanel {
 			String phoneNumber = textField_phoneNum.getText();
 			String cardNumber = textField_cardNum.getText();
 			
-			// DB에 추가
-			DB_USER.insertUser(userName, password, phoneNumber, cardNumber);
+			// userName 중복 확인
+			boolean checkUserName = DB_USER.checkUserNameOverlap(userName);
 			
-			// 로그인 화면으로 이동
-			window.change("login");
+			// 공백 체크
+			if ("".equals(userName) || "".equals(password) || "".equals(phoneNumber) || "".equals(cardNumber)) {				
+				JOptionPane.showMessageDialog(null, "모든 항목을 입력해주세요.");
+			}
+			// 아이디 중복 체크
+			else if (checkUserName) {
+				JOptionPane.showMessageDialog(null, "회원이름이 중복되었습니다.");
+			}
+			else {				
+				// DB에 추가
+				DB_USER.insertUser(userName, password, phoneNumber, cardNumber);				
+				// 로그인 화면으로 이동
+				window.change("login");
+			}
+			
 		}
 	}
 	
