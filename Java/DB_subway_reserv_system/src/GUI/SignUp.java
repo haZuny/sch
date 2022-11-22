@@ -13,16 +13,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import GUI.MainFrame;
-
 import DB.DB_USER;
+import java.util.*;
+import java.util.regex.Pattern;
+import javax.swing.JPasswordField;
 
 public class SignUp extends JPanel {
 	GUI.MainFrame window;	// 프레임
 		
 	private JTextField textField_userName;
-	private JTextField textField_pw;
 	private JTextField textField_phoneNum;
 	private JTextField textField_cardNum;
+	private JPasswordField textField_pw;
 
 	/**
 	 * Create the panel.
@@ -44,11 +46,6 @@ public class SignUp extends JPanel {
 		textField_userName.setBounds(190, 145, 200, 30);
 		add(textField_userName);
 		textField_userName.setColumns(10);
-		
-		textField_pw = new JTextField();
-		textField_pw.setBounds(190, 215, 200, 30);
-		add(textField_pw);
-		textField_pw.setColumns(10);
 		
 		JLabel lb_title = new JLabel("회원가입");
 		lb_title.setFont(new Font("HY강B", Font.PLAIN, 39));
@@ -83,19 +80,11 @@ public class SignUp extends JPanel {
 		JLabel lb_cardNum = new JLabel("카드번호");
 		lb_cardNum.setBounds(190, 325, 200, 30);
 		add(lb_cardNum);
+		
+		textField_pw = new JPasswordField();
+		textField_pw.setBounds(190, 215, 200, 30);
+		add(textField_pw);
 
-	}
-	
-	// 중복체크 메소드
-	class OverlapBtnListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String userName = textField_userName.getText();
-			// 중복 여부 확인
-			boolean check = DB_USER.checkUserNameOverlap(userName);
-			
-			// 중복 아니면 가입 허용
-		}
 	}
 	
 	
@@ -119,6 +108,14 @@ public class SignUp extends JPanel {
 			// 아이디 중복 체크
 			else if (checkUserName) {
 				JOptionPane.showMessageDialog(null, "회원이름이 중복되었습니다.");
+			}
+			// 휴대전화 정규식 체크
+			else if (!Pattern.matches("010-\\d\\d\\d\\d-\\d\\d\\d\\d", phoneNumber)) {
+				JOptionPane.showMessageDialog(null, "휴대전화를 올바르게 입력해주세요.");
+			}
+			// 카드번호 정규식 체크
+			else if (!Pattern.matches("\\d\\d\\d\\d-\\d\\d\\d\\d-\\d\\d\\d\\d-\\d\\d\\d\\d", cardNumber)) {
+				JOptionPane.showMessageDialog(null, "카드번호를 올바르게 입력해주세요.");
 			}
 			else {				
 				// DB에 추가

@@ -1,6 +1,8 @@
 package GUI;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,7 +20,7 @@ public class Login extends JPanel {
 	GUI.MainFrame window;	// 프레임
 	
 	private JTextField textField_userName;
-	private JTextField textField_pw;
+	private JPasswordField textField_pw;
 
 	/**
 	 * Create the panel.
@@ -41,7 +43,7 @@ public class Login extends JPanel {
 		add(textField_userName);
 		textField_userName.setColumns(10);
 		
-		textField_pw = new JTextField();
+		textField_pw = new JPasswordField();
 		textField_pw.setBounds(190, 285, 200, 30);
 		add(textField_pw);
 		textField_pw.setColumns(10);
