@@ -51,7 +51,7 @@ public class Login extends JPanel {
 		JLabel lb_title = new JLabel("로그인");
 		lb_title.setFont(new Font("HY강B", Font.PLAIN, 39));
 		lb_title.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_title.setBounds(250, 28, 200, 50);
+		lb_title.setBounds(250, 30, 200, 50);
 		add(lb_title);
 		
 		JButton btn_siginin = new JButton("로그인");

@@ -23,14 +23,14 @@ public class Server {
 	DatagramSocket socket;
 	DatagramPacket packet;
 	final int portReceive = 5000; // 수신용
-	final int portSend = 6000; // 송신용
 
+	// 생성자_클래스 필드 초기화
 	public Server() throws IOException {
 		// 소켓 생성
 		socket = new DatagramSocket(portReceive);
 	}
 
-	// 수신 및 송신
+	// 수신 및 송신_클라이언트에게 메세지 받으면 전달
 	public void receive() throws IOException, ClassNotFoundException {
 		while (true) {
 			
@@ -56,6 +56,7 @@ public class Server {
 		}
 	}
 
+	// 메인_서버 객체 생성 후 실행
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Server server = new Server();
 		server.receive();

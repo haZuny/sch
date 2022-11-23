@@ -14,7 +14,7 @@ public class DB_USER {
 	static int createTable_User() {
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
 		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = 'USER'";
-		String sql = "CREATE TABLE USER (USER_NUM INTEGER PRIMARY KEY AUTOINCREMENT, USER_NAME VARCHAR(255), PHONE_NUMBER VARCHAR(255), USER_CLASS VARCHAR(255), CARD_NUMBER VARCHAR(255), PASS_WORD VARCHAR(255));";
+		String sql = "CREATE TABLE USER (USER_NUM INTEGER PRIMARY KEY AUTOINCREMENT, USER_NAME VARCHAR(255), PHONE_NUMBER VARCHAR(255), USER_CLASS VARCHAR(255), CARD_NUMBER VARCHAR(255), PASS_WORD VARCHAR(255), ACCEPT VARCHAR(255));";
 		int count = 0;
 
 		PreparedStatement pstmt; // 리턴 없는 쿼리
@@ -80,8 +80,8 @@ public class DB_USER {
 		createTable_User();
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String sql = "INSERT INTO USER (USER_NAME, PHONE_NUMBER, USER_CLASS, CARD_NUMBER, PASS_WORD) VALUES(\'"
-				+ userName + "\', \'" + phoneNum + "\', \'SILVER\', \'" + cardNum + "\', \'" + password + "\')";
+		String sql = "INSERT INTO USER (USER_NAME, PHONE_NUMBER, USER_CLASS, CARD_NUMBER, PASS_WORD, ACCEPT) VALUES(\'"
+				+ userName + "\', \'" + phoneNum + "\', \'SILVER\', \'" + cardNum + "\', \'" + password + "\', \'FALSE\')";
 		PreparedStatement pstmt;
 		int count = 0;
 
