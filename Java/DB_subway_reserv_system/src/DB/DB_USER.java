@@ -140,35 +140,91 @@ public class DB_USER {
 		ResultSet rs = null;
 		String sql = "select * from USER";
 		ArrayList<HashMap<String, String>> userList = new ArrayList<>();
-		
+
 		Connection con = DB_Connect.connectSQL();
-		
+
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				userList.add(new HashMap<>());
-				userList.get(userList.size()-1).put("user_num", rs.getString(1));
-				userList.get(userList.size()-1).put("user_name", rs.getString(2));
-				userList.get(userList.size()-1).put("phone_number", rs.getString(3));
-				userList.get(userList.size()-1).put("user_class", rs.getString(4));
-				userList.get(userList.size()-1).put("card_number", rs.getString(5));
-				userList.get(userList.size()-1).put("password", rs.getString(6));
-				userList.get(userList.size()-1).put("accept", rs.getString(7));
+				userList.get(userList.size() - 1).put("user_num", rs.getString(1));
+				userList.get(userList.size() - 1).put("user_name", rs.getString(2));
+				userList.get(userList.size() - 1).put("phone_number", rs.getString(3));
+				userList.get(userList.size() - 1).put("user_class", rs.getString(4));
+				userList.get(userList.size() - 1).put("card_number", rs.getString(5));
+				userList.get(userList.size() - 1).put("password", rs.getString(6));
+				userList.get(userList.size() - 1).put("accept", rs.getString(7));
 			}
 
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return userList;
 	}
 
-	public static void main(String[] args) {
-			// TODO Auto-generated method stub
-			System.out.println(getUserList());
-		
+	// 가입대기 유저 정보 반환
+	public static ArrayList<HashMap<String, String>> getSignUpAcceptUserList() {
+		// 테이블 체크
+		createTable_User();
+
+		Statement stmt;
+		ResultSet rs = null;
+		String sql = "select * from USER WHERE ACCEPT = \'FALSE\'";
+		ArrayList<HashMap<String, String>> userList = new ArrayList<>();
+
+		Connection con = DB_Connect.connectSQL();
+
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				userList.add(new HashMap<>());
+				userList.get(userList.size() - 1).put("user_num", rs.getString(1));
+				userList.get(userList.size() - 1).put("user_name", rs.getString(2));
+				userList.get(userList.size() - 1).put("phone_number", rs.getString(3));
+				userList.get(userList.size() - 1).put("user_class", rs.getString(4));
+				userList.get(userList.size() - 1).put("card_number", rs.getString(5));
+				userList.get(userList.size() - 1).put("password", rs.getString(6));
+				userList.get(userList.size() - 1).put("accept", rs.getString(7));
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
+		return userList;
+	}
+
+	// 유저 제거
+	public static int deleteUser(String userNum) {
+		// 테이블 체크
+		createTable_User();
+
+		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
+		String sql = "delete from USER where USER_NUM = " + userNum;
+		PreparedStatement pstmt;
+		int count = 0;
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			count = pstmt.executeUpdate();
+			System.out.println("USER DELETE");
+
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println(getUserList());
+
+	}
 
 }
