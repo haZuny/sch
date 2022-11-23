@@ -138,7 +138,11 @@ public class DB_USER {
 
 		Statement stmt;
 		ResultSet rs = null;
+<<<<<<< HEAD
 		String sql = "select * from USER where ACCEPT = \'TRUE\'";
+=======
+		String sql = "select * from USER";
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		ArrayList<HashMap<String, String>> userList = new ArrayList<>();
 
 		Connection con = DB_Connect.connectSQL();
@@ -199,6 +203,7 @@ public class DB_USER {
 		return userList;
 	}
 
+<<<<<<< HEAD
 	// 특정 필드 반환
 	public static String getSpecificField(String userNum, String field) {
 		// 테이블 체크
@@ -225,6 +230,8 @@ public class DB_USER {
 		return returnS;
 	}
 
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 	// 유저 제거
 	public static int deleteUser(String userNum) {
 		// 테이블 체크
@@ -247,6 +254,7 @@ public class DB_USER {
 		return count;
 	}
 
+<<<<<<< HEAD
 	// 유저 필드 업데이트
 	public static int updateUser(String userNum, String field, String value) {
 		// 테이블 체크
@@ -269,6 +277,8 @@ public class DB_USER {
 		return count;
 	}
 
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println(getUserList());

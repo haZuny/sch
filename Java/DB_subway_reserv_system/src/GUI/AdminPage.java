@@ -5,9 +5,12 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+<<<<<<< HEAD
 import DB.DB_Schedule;
 import DB.DB_Subway;
 import DB.DB_Train;
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 import DB.DB_USER;
 
 import java.awt.Color;
@@ -19,15 +22,21 @@ import javax.swing.JTabbedPane;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.lang.reflect.Array;
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
 
 import GUI.MainFrame;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+<<<<<<< HEAD
 import java.awt.LayoutManager;
 
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -39,11 +48,14 @@ public class AdminPage extends JPanel {
 	MainFrame window;
 
 	ArrayList<HashMap<String, String>> signUpAcceptList;
+<<<<<<< HEAD
 	ArrayList<HashMap<String, String>> userList;
 	ArrayList<HashMap<String, String>> trainList;
 	ArrayList<HashMap<String, String>> subwayList;
 	ArrayList<HashMap<String, String>> scheduleList;
 	ArrayList<HashMap<String, String>> showedScheduleList;
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 
 	/**
 	 * Create the panel.
@@ -52,10 +64,13 @@ public class AdminPage extends JPanel {
 		this.window = window;
 		// 가입 대기 회원 목록
 		signUpAcceptList = DB_USER.getSignUpAcceptUserList();
+<<<<<<< HEAD
 		userList = DB_USER.getUserList();
 		trainList = DB_Train.getTrainList();
 		subwayList = DB_Subway.getSubwayList();
 		scheduleList = DB_Schedule.getScheduleList();
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 
 		setLayout(null);
 
@@ -73,6 +88,7 @@ public class AdminPage extends JPanel {
 		lb_schedultList.setBounds(25, 280, 200, 30);
 		add(lb_schedultList);
 
+<<<<<<< HEAD
 		// 기차역 리스트
 		String[] subwayArr = new String[subwayList.size()];
 		for(int i = 0; i < subwayList.size(); i++) {
@@ -81,6 +97,15 @@ public class AdminPage extends JPanel {
 		JComboBox comboBox_subwayList = new JComboBox(subwayArr);
 		comboBox_subwayList.setBounds(25, 430, 200, 30);
 		add(comboBox_subwayList);
+=======
+		JComboBox comboBox_schedule = new JComboBox();
+		comboBox_schedule.setBounds(25, 430, 200, 30);
+		add(comboBox_schedule);
+
+		JButton btn_search = new JButton("조회");
+		btn_search.setBounds(245, 430, 80, 30);
+		add(btn_search);
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 
 		JLabel lb_signUpAccept = new JLabel("가입 신청 목록");
 		lb_signUpAccept.setBounds(375, 100, 300, 30);
@@ -90,6 +115,7 @@ public class AdminPage extends JPanel {
 		lb_signUpAccept_1.setBounds(375, 280, 300, 30);
 		add(lb_signUpAccept_1);
 
+<<<<<<< HEAD
 		// 열차 등급 콤보박스
 		String[] trainClassList = { "새마을", "무궁화" };
 		JComboBox comboBox_trainClass = new JComboBox(trainClassList);
@@ -97,6 +123,8 @@ public class AdminPage extends JPanel {
 		add(comboBox_trainClass);
 
 		// 열차 추가 버튼
+=======
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		JButton btn_addTrain = new JButton("추가");
 		btn_addTrain.addActionListener(new ActionListener() {
 			@Override
@@ -112,6 +140,7 @@ public class AdminPage extends JPanel {
 		});
 		btn_addTrain.setBounds(245, 100, 80, 30);
 		add(btn_addTrain);
+<<<<<<< HEAD
 
 		JButton btn_addSchedule = new JButton("추가");
 		btn_addSchedule.addActionListener(new ActionListener() {	
@@ -132,6 +161,15 @@ public class AdminPage extends JPanel {
 				window.change("login");
 			}
 		});
+=======
+
+		JButton btn_addTrain_1 = new JButton("추가");
+		btn_addTrain_1.setBounds(245, 280, 80, 30);
+		add(btn_addTrain_1);
+
+		JButton btn_logout = new JButton("로그아웃");
+		btn_logout.addActionListener(new LogoutBtnListener());
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		btn_logout.setFont(new Font("굴림", Font.PLAIN, 10));
 		btn_logout.setBounds(491, 51, 80, 30);
 		add(btn_logout);
@@ -144,8 +182,12 @@ public class AdminPage extends JPanel {
 		add(scrollPane_signUpList);
 
 		JPanel panel_signUpList = new JPanel();
+<<<<<<< HEAD
 		panel_signUpList.setBackground(Color.WHITE);
 		panel_signUpList.setPreferredSize(new Dimension(300, 30 * signUpAcceptList.size() + 10));
+=======
+		panel_signUpList.setPreferredSize(new Dimension(300, 120));
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		scrollPane_signUpList.setViewportView(panel_signUpList);
 
 		JScrollPane scrollPane_trainList = new JScrollPane();
@@ -156,8 +198,12 @@ public class AdminPage extends JPanel {
 		add(scrollPane_trainList);
 
 		JPanel panel_trainList = new JPanel();
+<<<<<<< HEAD
 		panel_trainList.setBackground(Color.WHITE);
 		panel_trainList.setPreferredSize(new Dimension(300, 30 * trainList.size() + 40));
+=======
+		panel_trainList.setPreferredSize(new Dimension(300, 120));
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		scrollPane_trainList.setViewportView(panel_trainList);
 
 		JScrollPane scrollPane_scheduleList = new JScrollPane();
@@ -168,6 +214,7 @@ public class AdminPage extends JPanel {
 		add(scrollPane_scheduleList);
 
 		JPanel panel_scheduleList = new JPanel();
+<<<<<<< HEAD
 		panel_scheduleList.setBackground(Color.WHITE);
 		panel_scheduleList.setPreferredSize(new Dimension(300, 30 * trainList.size() + 10));
 		scrollPane_scheduleList.setViewportView(panel_scheduleList);
@@ -194,6 +241,10 @@ public class AdminPage extends JPanel {
 		});
 		btn_search.setBounds(245, 430, 80, 30);
 		add(btn_search);
+=======
+		panel_scheduleList.setPreferredSize(new Dimension(300, 120));
+		scrollPane_scheduleList.setViewportView(panel_scheduleList);
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 
 		JScrollPane scrollPane_userList = new JScrollPane();
 		scrollPane_userList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -203,12 +254,17 @@ public class AdminPage extends JPanel {
 		add(scrollPane_userList);
 
 		JPanel panel_userList = new JPanel();
+<<<<<<< HEAD
 		panel_userList.setBackground(Color.WHITE);
 		panel_userList.setPreferredSize(new Dimension(300, 30 * userList.size() + 10));
+=======
+		panel_userList.setPreferredSize(new Dimension(300, 120));
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		scrollPane_userList.setViewportView(panel_userList);
 
 		// 가입 대기 목록 추가
 		for (int i = 0; i < signUpAcceptList.size(); i++) {
+<<<<<<< HEAD
 			panel_signUpList.add(new Panel_signUpAcceptListInside(signUpAcceptList.get(i)));
 		}
 
@@ -225,6 +281,40 @@ public class AdminPage extends JPanel {
 //		for (int i = 0; i < scheduleList.size(); i++) {
 //			panel_scheduleList.add(new Panel_scheduleListInside(scheduleList.get(i)));
 //		}
+=======
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout());
+			panel_signUpList.add(panel);
+
+			JLabel lblNewLabel2 = new JLabel(signUpAcceptList.get(i).get("user_num"));
+			panel.add(lblNewLabel2);
+
+			JLabel lblNewLabel = new JLabel(signUpAcceptList.get(i).get("user_name"));
+			panel.add(lblNewLabel);
+
+			JButton btnNewButton = new JButton("제거");
+			btnNewButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					DB_USER.deleteUser(signUpAcceptList.get(i).get("user_num"));
+				}
+			});
+			panel.add(btnNewButton);
+
+			JButton btnNewButton_1 = new JButton("승낙");
+			panel.add(btnNewButton_1);
+
+		}
+
+	}
+
+	// 로그아웃 버튼 이벤트
+	class LogoutBtnListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			window.change("login");
+		}
+>>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 	}
 
 	// 회원가입 승인 리스트 항목
