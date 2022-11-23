@@ -5,6 +5,7 @@ import GUI.Login;
 public class MainFrame extends JFrame{
 	JPanel login;
 	JPanel signUp;
+	JPanel adminPage;
 
 	public MainFrame() {
 		
@@ -26,9 +27,17 @@ public class MainFrame extends JFrame{
 			revalidate();
 			repaint();
 		}
+		// 회원가입 화면으로 전환
 		else if(panelName.equals("signUp")) {
 			getContentPane().removeAll();
 			getContentPane().add(signUp);
+			revalidate();
+			repaint();
+		}	
+		// 관리자 화면으로 전환
+		else if(panelName.equals("adminPage")) {
+			getContentPane().removeAll();
+			getContentPane().add(adminPage);
 			revalidate();
 			repaint();
 		}	
@@ -41,6 +50,7 @@ public class MainFrame extends JFrame{
 		
 		frame.login = new Login(frame);
 		frame.signUp = new SignUp(frame);
+		frame.adminPage = new AdminPage(frame);
 		
 		frame.add(frame.login);
 		frame.setVisible(true);

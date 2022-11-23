@@ -5,11 +5,16 @@ import javax.swing.JPasswordField;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import DB.DB_USER;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import GUI.MainFrame;
@@ -55,6 +60,7 @@ public class Login extends JPanel {
 		add(lb_title);
 		
 		JButton btn_siginin = new JButton("로그인");
+		btn_siginin.addActionListener(new LoginBtnListener());
 		btn_siginin.setBounds(410, 215, 100, 30);
 		add(btn_siginin);
 		
@@ -64,6 +70,36 @@ public class Login extends JPanel {
 		add(btn_signup);
 
 	}
+	
+	// 로그인 버튼 이벤트
+		class LoginBtnListener implements ActionListener{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String userName = textField_userName.getText();
+				String password = textField_pw.getText();
+				HashMap<String, String> userData= null;
+				
+				// 아이디 체크
+				if(!DB_USER.checkUserNameOverlap(userName)) {
+					JOptionPane.showMessageDialog(null, "아이디가 존재하지 않습니다.");
+					return;
+				}
+				// 정보 가져옴
+				userData = DB_USER.getUserByUserName(userName);
+				// 비밀번호 체크
+				if (!userData.get("password").equals(password)) {
+					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+					return;					
+				}
+				// 관리자 페이지로 이동
+				if(userData.get("user_class").equals("admin")) {
+					// 폼 초기화
+					textField_userName.setText("");
+					textField_pw.setText("");
+					window.change("adminPage");					
+				}
+			}
+		}
 	
 	// 회원가입 버튼 이벤트
 	class SignUpBtnListener implements ActionListener{
