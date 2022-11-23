@@ -67,6 +67,8 @@ public class PanelSignIn extends JPanel {
 			} catch (SQLException | ClassNotFoundException | IOException e1) {
 				e1.printStackTrace();
 			}
+			
+			PanelMain.updateFriends();
 		});
 		
 		// 가입 버튼

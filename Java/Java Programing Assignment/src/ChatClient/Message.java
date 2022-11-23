@@ -15,7 +15,7 @@ public class Message implements Serializable{
 	
 	public ArrayList<Integer> portToSend;
 	
-	
+	// 생성자_필드 초기화
 	public Message(int type, byte[] content, String user, ArrayList<Integer> portsToSend) {
 		this.type = type;
 		contentBuf = content;

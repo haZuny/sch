@@ -25,7 +25,7 @@ public class DataBase {
 		return con;
 	}
 
-	// User 정보 추가
+	// User 정보 추가(회원가입)
 	public static int addUser(String ID, String PW) throws SQLException {
 		Connection con = makeConnection();
 
@@ -85,7 +85,7 @@ public class DataBase {
 		return -1;
 	}
 	
-	//ID로 포트 검색
+	//ID로 포트 검색하여 반환
 	static int searchID(String ID) throws SQLException {
 		Connection con = makeConnection();
 
@@ -111,7 +111,7 @@ public class DataBase {
 	}
 	
 	
-	// 친구 목록 반환
+	// 전체 친구 목록 반환
 	public static HashMap getFriendsID() throws SQLException{
 		HashMap<String, Integer> friendData = new HashMap<>();
 		

@@ -50,7 +50,7 @@ public class SignUp extends JPanel {
 		JLabel lb_title = new JLabel("회원가입");
 		lb_title.setFont(new Font("HY강B", Font.PLAIN, 39));
 		lb_title.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_title.setBounds(250, 28, 200, 50);
+		lb_title.setBounds(250, 30, 200, 50);
 		add(lb_title);
 		
 		JButton btn_signUp = new JButton("회원가입");
@@ -119,7 +119,12 @@ public class SignUp extends JPanel {
 			}
 			else {				
 				// DB에 추가
-				DB_USER.insertUser(userName, password, phoneNumber, cardNumber);				
+				DB_USER.insertUser(userName, password, phoneNumber, cardNumber);			
+				// 폼 초기화
+				textField_userName.setText("");
+				textField_pw.setText("");
+				textField_phoneNum.setText("");
+				textField_cardNum.setText("");
 				// 로그인 화면으로 이동
 				window.change("login");
 			}
@@ -131,6 +136,11 @@ public class SignUp extends JPanel {
 	class BackBtnListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// 폼 초기화
+			textField_userName.setText("");
+			textField_pw.setText("");
+			textField_phoneNum.setText("");
+			textField_cardNum.setText("");
 			// 로그인 화면으로 이동
 			window.change("login");
 		}

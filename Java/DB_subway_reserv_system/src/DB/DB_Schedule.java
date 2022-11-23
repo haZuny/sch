@@ -8,18 +8,13 @@ import java.sql.Statement;
 
 import DB.DB_Connect;
 
-public class DB_Subway {
+public class DB_Schedule {
 
-	// 시간표 테이블 생성
-	static int createTable_Schedule() {
+	// 기차역 테이블 생성
+	static int createTable_Train() {
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = 'SCHEDULE'";
-		String sql = "CREATE TABLE SCHEDULE (SUBWAY_NUM INTEGER, TRAIN_NUM INTEGER, DIRECTION VARCHAR(255), TIME VARCHAR(255), "
-				+ "FOREIGN KEY(SUBWAY_NUM) REFERENCES SUBWAY(SUBWAY_NUM) ON UPDATE CASCADE, "
-				+ "FOREIGN KEY(TRAIN_NUM) REFERENCES TRAIN(TRAIN_NUM) ON UPDATE CASCADE)";
-//		String sql = "CREATE TABLE SCHEDULE (SUBWAY_NUM INTEGER, TRAIN_NUM INTEGER, DIRECTION VARCHAR(255), TIME VARCHAR(255), "
-//				+ "CONSTRAINT SUBWAY_NUM_FK FOREIGN KEY(SUBWAY_NUM) REFERENCES SUBWAY(SUBWAY_NUM), "
-//				+ "CONSTRAINT TRAIN_NUM_FK FOREIGN KEY(TRAIN_NUM) REFERENCES TRAIN(TRAIN_NUM))";
+		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = 'SUBWAY'";
+		String sql = "CREATE TABLE SUBWAY (SUBWAY_NUM INTEGER PRIMARY KEY, SUBWAY_NAME VARCHAR(255));";
 		int count = 0;
 
 		PreparedStatement pstmt; // 리턴 없는 쿼리
@@ -36,9 +31,7 @@ public class DB_Subway {
 			if (tableNum == 0) {
 				pstmt = con.prepareStatement(sql); // 쿼리 전달
 				count = pstmt.executeUpdate(); // 쿼리 실행
-				pstmt = con.prepareStatement("PRAGMA foreign_keys = 1");
-				count = pstmt.executeUpdate();
-				System.out.println("SCHEDULE 테이블 생성");
+				System.out.println("SUBWAY 테이블 생성");
 
 			}
 			con.close();
@@ -50,21 +43,21 @@ public class DB_Subway {
 	}
 
 	
-	// 시간표 추가
-	public static int insertSchedule(int subwayNum, int trainNum, String direction, String time) {
+	// 기차역 추가
+	public static int insertTrain(int subwayNum, String subwayName) {
 		// 테이블 체크
-		createTable_Schedule();
+		createTable_Train();
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String sql = "INSERT INTO SCHEDULE  VALUES("
-				+ subwayNum + ", " + trainNum +  ", \'" + direction + "\', \'" + time + "\')";
+		String sql = "INSERT INTO SUBWAY  VALUES("
+				+ subwayNum +  ", \'" + subwayName + "\')";
 		PreparedStatement pstmt;
 		int count = 0;
 
 		try {
 			pstmt = con.prepareStatement(sql);
 			count = pstmt.executeUpdate();
-			System.out.println("SCHEDULE INSERT");
+			System.out.println("SUBWAY INSERT");
 
 			con.close();
 		} catch (Exception e) {
@@ -75,6 +68,12 @@ public class DB_Subway {
 
 //	public static void main(String[] args) {
 //			// TODO Auto-generated method stub
+//
+//		insertTrain(1, "신창역");
+//		insertTrain(2, "온양온천역");
+//		insertTrain(3, "배방역");
+//		insertTrain(4, "탕정역");
+//		insertTrain(5, "아산역");
 //		}
 
 }

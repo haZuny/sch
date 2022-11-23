@@ -22,17 +22,18 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class User{
+	final String serverIP = "127.0.0.1";	//Local Host
 	InetAddress addrServer;
-	final String serverIP = "127.0.0.1";
 	DatagramSocket socket;
 	DatagramPacket packet;
-	final int portReceive; // 수신용
-	final int portSend = 5000; // 송신용
+	final int portReceive; // 수신용(각 유저는 서로 다른 포트번호)
+	final int portSend = 5000; // 송신용(서버의 수신 포트)
 	
 	// 사용자 정보
 	String userID ;
-	ArrayList<Integer> portToSend;
+	ArrayList<Integer> portToSend;	//보낼 상대방 리스트
 
+	// 생성자_클래스 필드 초기화
 	public User(String id, int port) throws IOException{
 		userID = id;
 		portReceive = 7000+port;
@@ -44,7 +45,7 @@ public class User{
 		socket = new DatagramSocket(portReceive);
 	}
 
-	// 수신
+	// 수신_메세지를 기다림
 	public void receive() throws IOException, ClassNotFoundException {
 		while (true) {
 			// 패킷 받음
@@ -65,7 +66,7 @@ public class User{
 		}
 	}
 
-	// 텍스트 송신
+	// 텍스트 송신_메세지 전송
 	public void sendText(String txt) throws IOException {
 		// 소켓 생성
 		DatagramSocket socketSend = new DatagramSocket();

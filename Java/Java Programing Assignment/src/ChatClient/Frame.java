@@ -35,24 +35,21 @@ public class Frame extends JFrame {
 			public void run() {
 				try {
 					Frame frame = new Frame();
+					System.out.println(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		while(true) {
-			if(user != null) {
-				break;
-			}
+		int a = 1;
+		while(user == null) {
 			System.out.println("로그인 대기중");
 		}
 		user.receive();
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	// 생성자
 	public Frame() {
 		setTitle("채팅 클라이언트");
 		setResizable(false);
@@ -81,7 +78,7 @@ public class Frame extends JFrame {
 		panel_main.setVisible(false);
 	}
 	
-	// 화면 변경
+	// 화면 변경(로그인화면->회원가입화면->메인화면)
 	public static void changeMonitor(int monitor) {
 		panel_signIn.setVisible(false);
 		panel_signUp.setVisible(false);
@@ -103,7 +100,7 @@ public class Frame extends JFrame {
 		}
 	}
 	
-	// 사용자 생성
+	// 사용자 생성_User객체 생성
 	public static void generateUser(String id, int port) throws IOException, ClassNotFoundException {
 		user = new User(id, port);
 		System.out.println(user.portReceive);
