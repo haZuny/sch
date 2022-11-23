@@ -1,10 +1,13 @@
 package DB;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import DB.DB_Connect;
 
@@ -42,15 +45,13 @@ public class DB_Train {
 		return count;
 	}
 
-	
 	// 열차 추가
 	public static int insertTrain(String trainClass) {
 		// 테이블 체크
 		createTable_Train();
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String sql = "INSERT INTO TRAIN (TRAIN_CLASS) VALUES(\'"
-				+ trainClass +  "\')";
+		String sql = "INSERT INTO TRAIN (TRAIN_CLASS) VALUES(\'" + trainClass + "\')";
 		PreparedStatement pstmt;
 		int count = 0;
 
@@ -66,10 +67,42 @@ public class DB_Train {
 		return count;
 	}
 
+	// 전체 목록 조회
+	public static ArrayList<HashMap<String, String>> getTrainList() {
+		ArrayList<HashMap<String, String>> trainList = new ArrayList<>();
+
+		// 테이블 체크
+		createTable_Train();
+
+		Statement stmt;
+		ResultSet rs = null;
+		String sql = "select * from TRAIN";
+		String returnS = null;
+
+		Connection con = DB_Connect.connectSQL();
+
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				trainList.add(new HashMap<>());
+				trainList.get(trainList.size() - 1).put("train_num", rs.getString(1));
+				trainList.get(trainList.size() - 1).put("train_class", rs.getString(2));
+			}
+			
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return trainList;
+	}
+
 	public static void main(String[] args) {
-			// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 
 		insertTrain("새마을");
-		}
+	}
 
 }
