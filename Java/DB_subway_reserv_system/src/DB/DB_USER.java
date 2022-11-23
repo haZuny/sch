@@ -44,30 +44,31 @@ public class DB_USER {
 
 	// 회원 아이디 중복 체크
 	public static boolean checkUserNameOverlap(String userName) {
+		// 테이블 체크
+		createTable_User();
+
 		Statement stmt;
 		ResultSet rs;
 		String sql = "select count(*) from USER where USER_NAME = \'" + userName + "\'";
 		boolean check = true;
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		
+
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
 			rs.next();
 			int overlapNum = rs.getInt(1);
-			if(overlapNum >= 1)
+			if (overlapNum >= 1)
 				check = true;
 			else
 				check = false;
-			
+
 			con.close();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return check;
 	}
 
@@ -78,7 +79,8 @@ public class DB_USER {
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
 		String sql = "INSERT INTO USER (USER_NAME, PHONE_NUMBER, USER_CLASS, CARD_NUMBER, PASS_WORD, ACCEPT) VALUES(\'"
-				+ userName + "\', \'" + phoneNum + "\', \'SILVER\', \'" + cardNum + "\', \'" + password + "\', \'FALSE\')";
+				+ userName + "\', \'" + phoneNum + "\', \'SILVER\', \'" + cardNum + "\', \'" + password
+				+ "\', \'FALSE\')";
 		PreparedStatement pstmt;
 		int count = 0;
 
@@ -93,7 +95,7 @@ public class DB_USER {
 		}
 		return count;
 	}
-	
+
 	// 가입 대기 회원 조회
 //	public static ResultSet searchAcceptUser() {
 //		Statement stmt; // 리턴 있는 쿼리
