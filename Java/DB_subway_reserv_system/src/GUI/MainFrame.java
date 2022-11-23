@@ -38,6 +38,13 @@ public class MainFrame extends JFrame{
 			revalidate();
 			repaint();
 		}	
+		// 스케쥴 추가 화면으로 전환
+		else if(panelName.equals("addSchedulePage")) {
+			getContentPane().removeAll();
+			getContentPane().add(new AddSchedule(this));
+			revalidate();
+			repaint();
+		}	
 	}
 	
 	

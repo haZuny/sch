@@ -84,12 +84,11 @@ public class DB_Train {
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				trainList.add(new HashMap<>());
 				trainList.get(trainList.size() - 1).put("train_num", rs.getString(1));
 				trainList.get(trainList.size() - 1).put("train_class", rs.getString(2));
 			}
-			
 
 			con.close();
 		} catch (SQLException e) {
