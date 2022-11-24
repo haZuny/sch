@@ -348,6 +348,7 @@ public class AdminPage extends JPanel {
 			}
 			add(new JLabel(schedule.get("direction")));
 			add(new JLabel(schedule.get("time")));
+			add(new JLabel(schedule.get("date")));
 		}
 	}
 }

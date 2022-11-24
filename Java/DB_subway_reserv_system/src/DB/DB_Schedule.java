@@ -15,8 +15,8 @@ public class DB_Schedule {
 	// 시간표 테이블 생성
 	static int createTable_Schedule() {
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = 'SCHEDULE'";
-		String sql = "CREATE TABLE SCHEDULE (SUBWAY_NUM INTEGER, TRAIN_NUM INTEGER, DIRECTION VARCHAR(255), TIME VARCHAR(255), "
+		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = \'SCHEDULE\'";
+		String sql = "CREATE TABLE SCHEDULE (SUBWAY_NUM INTEGER, TRAIN_NUM INTEGER, DIRECTION VARCHAR(255), TIME VARCHAR(255), DATE VARCHAR(255), "
 				+ "FOREIGN KEY(SUBWAY_NUM) REFERENCES SUBWAY(SUBWAY_NUM) ON UPDATE CASCADE, "
 				+ "FOREIGN KEY(TRAIN_NUM) REFERENCES TRAIN(TRAIN_NUM) ON UPDATE CASCADE)";
 		int count = 0;
@@ -49,13 +49,13 @@ public class DB_Schedule {
 	}
 
 	// 시간표 추가
-	public static int insertSchedule(String string, String trainNum, String direction, String time) {
+	public static int insertSchedule(String subwayNum, String trainNum, String direction, String time, String date) {
 		// 테이블 체크
 		createTable_Schedule();
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String sql = "INSERT INTO SCHEDULE  VALUES(" + string + ", " + trainNum + ", \'" + direction + "\', \'"
-				+ time + "\')";
+		String sql = "INSERT INTO SCHEDULE  VALUES(" + subwayNum + ", " + trainNum + ", \'" + direction + "\', \'"
+				+ time + "\', \'" + date + "\')";
 		PreparedStatement pstmt;
 		int count = 0;
 
@@ -94,6 +94,7 @@ public class DB_Schedule {
 				scheduleList.get(scheduleList.size() - 1).put("train_num", rs.getString(2));
 				scheduleList.get(scheduleList.size() - 1).put("direction", rs.getString(3));
 				scheduleList.get(scheduleList.size() - 1).put("time", rs.getString(4));
+				scheduleList.get(scheduleList.size() - 1).put("date", rs.getString(5));
 			}
 
 			con.close();
@@ -104,9 +105,11 @@ public class DB_Schedule {
 		return scheduleList;
 	}
 
-//	public static void main(String[] args) {
-//			// TODO Auto-generated method stub
-//		System.out.println(getScheduleList());
-//		}
+	public static void main(String[] args) {
+			// TODO Auto-generated method stub
+//		insertSchedule("1", "26", "상행", "1:10", "12-12");
+		createTable_Schedule();
+		System.out.println("dhofRK");
+		}
 
 }
