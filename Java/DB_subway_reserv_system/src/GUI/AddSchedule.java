@@ -122,29 +122,89 @@ public class AddSchedule extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				// 추가 가능 여부 플래그
 				boolean canRegister = true;
-				String direction = (String) comboBox_direction.getSelectedItem();
+
+				// 시간
 				int timeHour = Integer.parseInt((String) comboBox_timeHour.getSelectedItem());
 				int timeMinute = Integer.parseInt((String) comboBox_timeMinute.getSelectedItem());
-				int dateMonth = Integer.parseInt((String)comboBox_dateMonth.getSelectedItem());
-				int dateDay = Integer.parseInt((String)comboBox_dateDay.getSelectedItem());
-				int allDayMinute = timeHour * 60 + timeMinute;
-				String trainNum = ((String) comboBox_train.getSelectedItem()).split(":")[0];
-				String trainClass = ((String) comboBox_train.getSelectedItem()).split(":")[1];
-				System.out.println(trainClass);
+				int allTimeMinute = timeHour * 60 + timeMinute;
+
+				// 날짜
+				int dateMonth = Integer.parseInt((String) comboBox_dateMonth.getSelectedItem());
+				int dateDay = Integer.parseInt((String) comboBox_dateDay.getSelectedItem());
+				int allTimeDay = dateMonth * 12 + dateDay;
 				
+				// 스케줄 추가 정보
+				String direction = (String) comboBox_direction.getSelectedItem();
+				String trainNum = ((String) comboBox_train.getSelectedItem()).split(":")[0];
+
 				// 상행
-				if(direction.equals("상행")) {
+				if (direction.equals("상행")) {
 					// 각 지하철 역에 대해 열차 중복 여부 검사
 					for (int i = 0; i < subwayList.size(); i++) {
-						
-						
+						// 시간 초과 계산
+						if (allTimeMinute >= 1440) {
+							allTimeDay++;
+							allTimeMinute -= 1440;
+						}
+
+							// 날짜와 열차가 같은 스케줄 찾은 후 시간 비교
+							for (int j = 0; j < scheduleList.size(); j++) {
+								// 스케줄 객체
+								HashMap<String, String> schedule = scheduleList.get(j);
+								
+								// 스케줄 날짜 정보
+								int month = Integer.parseInt(schedule.get("date").split("-")[0]);
+								int day = Integer.parseInt(schedule.get("date").split("-")[1]);
+								int allDay = month * 12 + day;
+								
+								// 스케줄 시간 정보
+								int hour = Integer.parseInt(schedule.get("time").split(":")[0]);
+								int minute = Integer.parseInt(schedule.get("time").split(":")[1]);
+								int allMinute = hour * 60 + minute;
+								
+								// 날짜와 시간이 동일한 스케줄 존재하면 중복 체크
+								if (allTimeDay == allDay && allTimeMinute == allMinute) {
+									canRegister = false;
+								}		
+							}
 					}
+					
+					// 중복 없을 경우 추가
+					if(canRegister) {
+						// 시간 초기화
+						allTimeMinute = timeHour * 60 + timeMinute;
+						allTimeDay = dateMonth * 12 + dateDay;
+						
+						// 각 역에 대하여 추가
+						for(int i = 0; i < subwayList.size(); i++) {
+							// 시간 초과 계산
+							if (allTimeMinute >= 1440) {
+								allTimeDay++;
+								allTimeMinute -= 1440;
+							}
+							int month = allTimeDay / 12;
+							int day = allTimeDay % 12;
+							int hour = allTimeMinute / 60;
+							int minute = allTimeMinute % 60;
+							
+							// 스케줄 추가
+							DB_Schedule.insertSchedule(subwayList.get(i).get("train_num"), trainNum, direction, 
+									Integer.toString(hour)+":"+Integer.toString(minute), Integer.toString(month)+"-"+Integer.toString(day));
+							// 시간 추가
+							if(tra)
+						}
+					}
+					
+					
 				}
 				// 하행
-				if(direction.equals("하행")) {
+				if (direction.equals("하행")) {
 					// 각 지하철 역에 대해 열차 중복 여부 검사
 					for (int i = subwayList.size() - 1; i >= 0; i--) {
+						
 						
 						
 					}

@@ -105,11 +105,11 @@ public class DB_Schedule {
 		return scheduleList;
 	}
 
-	public static void main(String[] args) {
-			// TODO Auto-generated method stub
+//	public static void main(String[] args) {
+//			// TODO Auto-generated method stub
 //		insertSchedule("1", "26", "상행", "1:10", "12-12");
-		createTable_Schedule();
-		System.out.println("dhofRK");
-		}
+////		createTable_Schedule();
+//		System.out.println("dhofRK");
+//		}
 
 }
