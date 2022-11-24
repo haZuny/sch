@@ -50,10 +50,17 @@ public class MainFrame extends JFrame{
 		}	
 	}
 	public void change(String panelName, HashMap<String, String> user) {
-		// 로그인 화면으로 전환
+		// 유저페이지 화면으로 전환
 		if(panelName.equals("userPage")) {
 			getContentPane().removeAll();
 			getContentPane().add(new UserPage(this, user));
+			revalidate();
+			repaint();
+		}
+		// 유저정보 화면으로 전환
+		else if(panelName.equals("myInfo")) {
+			getContentPane().removeAll();
+			getContentPane().add(new MyInfo(this, user));
 			revalidate();
 			repaint();
 		}

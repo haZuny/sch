@@ -120,11 +120,7 @@ public class SignUp extends JPanel {
 			else {				
 				// DB에 추가
 				DB_USER.insertUser(userName, password, phoneNumber, cardNumber);			
-				// 폼 초기화
-				textField_userName.setText("");
-				textField_pw.setText("");
-				textField_phoneNum.setText("");
-				textField_cardNum.setText("");
+
 				// 로그인 화면으로 이동
 				window.change("login");
 			}

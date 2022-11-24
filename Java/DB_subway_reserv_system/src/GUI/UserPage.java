@@ -39,8 +39,6 @@ public class UserPage extends JPanel {
 	MainFrame window;
 	HashMap<String, String> user;
 
-	ArrayList<HashMap<String, String>> signUpAcceptList;
-	ArrayList<HashMap<String, String>> userList;
 	ArrayList<HashMap<String, String>> trainList;
 	ArrayList<HashMap<String, String>> subwayList;
 	ArrayList<HashMap<String, String>> scheduleList;
@@ -52,9 +50,7 @@ public class UserPage extends JPanel {
 	public UserPage(MainFrame window, HashMap<String, String> user) {
 		this.window = window;
 		this.user = user;
-		// 가입 대기 회원 목록
-		signUpAcceptList = DB_USER.getSignUpAcceptUserList();
-		userList = DB_USER.getUserList();
+
 		trainList = DB_Train.getTrainList();
 		subwayList = DB_Subway.getSubwayList();
 		scheduleList = DB_Schedule.getScheduleList();
@@ -129,6 +125,13 @@ public class UserPage extends JPanel {
 		add(btn_search);
 		
 		JButton btn_myInfo = new JButton("내 정보");
+		btn_myInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				window.change("myInfo", user);
+			}
+		});
 		btn_myInfo.setFont(new Font("굴림", Font.PLAIN, 10));
 		btn_myInfo.setBounds(550, 50, 80, 30);
 		add(btn_myInfo);
