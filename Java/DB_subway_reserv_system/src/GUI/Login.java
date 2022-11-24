@@ -98,6 +98,14 @@ public class Login extends JPanel {
 					textField_pw.setText("");
 					window.change("adminPage");					
 				}
+				// 로그인_미승인
+				else if(userData.get("accept").equals("FALSE")) {
+					JOptionPane.showMessageDialog(null, "승인 대기중입니다.");
+				}
+				// 로그인_승인
+				else if(userData.get("accept").equals("TRUE")) {
+					window.change("userPage", userData);
+				}
 			}
 		}
 	

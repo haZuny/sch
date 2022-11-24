@@ -1,4 +1,7 @@
 package GUI;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;
 import GUI.Login;
 
@@ -45,6 +48,15 @@ public class MainFrame extends JFrame{
 			revalidate();
 			repaint();
 		}	
+	}
+	public void change(String panelName, HashMap<String, String> user) {
+		// 로그인 화면으로 전환
+		if(panelName.equals("userPage")) {
+			getContentPane().removeAll();
+			getContentPane().add(new UserPage(this, user));
+			revalidate();
+			repaint();
+		}
 	}
 	
 	
