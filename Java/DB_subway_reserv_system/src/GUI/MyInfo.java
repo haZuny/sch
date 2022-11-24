@@ -171,7 +171,7 @@ public class MyInfo extends JPanel {
 				}
 				
 			}
-		});btn_edit.setBounds(185,400,150,30);
+		});btn_edit.setBounds(175,400,100,30);
 
 	add(btn_edit);
 		
@@ -184,7 +184,7 @@ public class MyInfo extends JPanel {
 				window.change("userPage", user);
 			}
 		});
-		btn_back.setBounds(365, 400, 150, 30);
+		btn_back.setBounds(425, 400, 100, 30);
 		add(btn_back);
 		
 		// 비밀번호
@@ -192,6 +192,18 @@ public class MyInfo extends JPanel {
 		passwordField_password.setText(user.get("password"));
 		passwordField_password.setBounds(130, 300, 200, 30);
 		add(passwordField_password);
+		
+		JButton btn_delete = new JButton("탈퇴");
+		btn_delete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				DB_USER.deleteUser(user.get("user_num"));
+				window.change("login");
+			}
+		});
+		btn_delete.setBounds(300, 400, 100, 30);
+		add(btn_delete);
 	}
 
 	// 시간표 목록 리스트 항목
