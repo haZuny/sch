@@ -3,12 +3,6 @@ import javax.swing.*;
 import GUI.Login;
 
 public class MainFrame extends JFrame{
-<<<<<<< HEAD
-=======
-	JPanel login;
-	JPanel signUp;
-	JPanel adminPage;
->>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 
 	public MainFrame() {
 		
@@ -51,13 +45,6 @@ public class MainFrame extends JFrame{
 			revalidate();
 			repaint();
 		}	
-		// 관리자 화면으로 전환
-		else if(panelName.equals("adminPage")) {
-			getContentPane().removeAll();
-			getContentPane().add(adminPage);
-			revalidate();
-			repaint();
-		}	
 	}
 	
 	
@@ -65,15 +52,7 @@ public class MainFrame extends JFrame{
 		// TODO Auto-generated method stub
 		MainFrame frame = new MainFrame();
 		
-<<<<<<< HEAD
 		frame.add(new Login(frame));
-=======
-		frame.login = new Login(frame);
-		frame.signUp = new SignUp(frame);
-		frame.adminPage = new AdminPage(frame);
-		
-		frame.add(frame.login);
->>>>>>> 1e89b12eaf1ce7a850b03c5aa200d1d7ab473bf1
 		frame.setVisible(true);
 	}
 
