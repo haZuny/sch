@@ -80,7 +80,7 @@ public class DB_Schedule {
 
 		Statement stmt;
 		ResultSet rs = null;
-		String sql = "select * from SCHEDULE";
+		String sql = "select * from SCHEDULE ORDER BY \'DATE\', \'TIME\'";
 		String returnS = null;
 
 		Connection con = DB_Connect.connectSQL();

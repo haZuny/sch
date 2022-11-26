@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import DB.DB_Schedule;
+import DB.DB_Seat;
 import DB.DB_Subway;
 import DB.DB_Train;
 import DB.DB_USER;
@@ -73,14 +74,14 @@ public class AdminPage extends JPanel {
 		lb_schedultList.setBounds(25, 280, 200, 30);
 		add(lb_schedultList);
 
-		// 기차역 리스트
-		String[] subwayArr = new String[subwayList.size()];
-		for(int i = 0; i < subwayList.size(); i++) {
-			subwayArr[i] = (subwayList.get(i).get("subway_num") + "  " + subwayList.get(i).get("subway_name"));
+		// 열차 리스트
+		String[] trainArr = new String[trainList.size()];
+		for(int i = 0; i < trainList.size(); i++) {
+			trainArr[i] = (trainList.get(i).get("train_num") + "  " + trainList.get(i).get("train_class"));
 		}
-		JComboBox comboBox_subwayList = new JComboBox(subwayArr);
-		comboBox_subwayList.setBounds(25, 430, 200, 30);
-		add(comboBox_subwayList);
+		JComboBox comboBox_trainList = new JComboBox(trainArr);
+		comboBox_trainList.setBounds(25, 430, 200, 30);
+		add(comboBox_trainList);
 
 		JLabel lb_signUpAccept = new JLabel("가입 신청 목록");
 		lb_signUpAccept.setBounds(375, 100, 300, 30);
@@ -101,18 +102,38 @@ public class AdminPage extends JPanel {
 		btn_addTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				// 열차 추가
 				int idx = comboBox_trainClass.getSelectedIndex();
 				if(idx == 0)
 					DB_Train.insertTrain("새마을");
 				else
 					DB_Train.insertTrain("무궁화");
+				
+				// 좌석 추가
+				HashMap<String, String> train = DB_Train.getTrainList().get(DB_Train.getTrainList().size()-1); 
+				int trainNum = Integer.parseInt(train.get("train_num"));
+				int carNum = Integer.parseInt(train.get("car_num"));
+				// 각 호차에 대해 추가, 호차는 3개
+				for (int i = 0; i < carNum; i++) {
+					int seatNum;
+					// 새마을: 4개
+					if(idx == 0) {
+						seatNum = 4;
+					}
+					else {
+						seatNum = 6;
+					}
+					for(int j = 0; j < seatNum; j++) {
+						DB_Seat.insertSeat(trainNum, i, j);						
+					}
+				}
 				window.change("adminPage");
 			}
 		});
 		btn_addTrain.setBounds(245, 100, 80, 30);
 		add(btn_addTrain);
 
+		// 스케줄추가 버튼
 		JButton btn_addSchedule = new JButton("추가");
 		btn_addSchedule.addActionListener(new ActionListener() {	
 			@Override
@@ -160,6 +181,7 @@ public class AdminPage extends JPanel {
 		panel_trainList.setPreferredSize(new Dimension(300, 30 * trainList.size() + 40));
 		scrollPane_trainList.setViewportView(panel_trainList);
 
+		// 스케줄 목록
 		JScrollPane scrollPane_scheduleList = new JScrollPane();
 		scrollPane_scheduleList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_scheduleList.setToolTipText("");
@@ -179,9 +201,9 @@ public class AdminPage extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				showedScheduleList = new ArrayList<HashMap<String,String>>();
 				panel_scheduleList.removeAll();
-				String subwayNum = ((String) comboBox_subwayList.getSelectedItem()).split(" ")[0];
+				String trainNum = ((String) comboBox_trainList.getSelectedItem()).split(" ")[0];
 				for(int i = 0; i < scheduleList.size(); i++) {
-					if(scheduleList.get(i).get("subway_num").equals(subwayNum))
+					if(scheduleList.get(i).get("train_num").equals(trainNum))
 						showedScheduleList.add(scheduleList.get(i));
 				}
 				for(int i = 0; i < showedScheduleList.size(); i++) {
@@ -285,7 +307,7 @@ public class AdminPage extends JPanel {
 			else if (user.get("user_class").equals("VIP"))
 				comboboxUserClass.setSelectedIndex(2);
 
-			// 변경 이벤트
+			// 회원 등급 변경 이벤트
 			comboboxUserClass.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -298,15 +320,15 @@ public class AdminPage extends JPanel {
 			add(comboboxUserClass);
 
 //			// 제거 버튼
-//			JButton btnDelete = new JButton("제거");
-//			btnDelete.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					DB_USER.deleteUser(user.get("user_num"));
-//					window.change("adminPage");
-//				}
-//			});
-//			add(btnDelete);
+			JButton btnDelete = new JButton("제거");
+			btnDelete.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					DB_USER.deleteUser(user.get("user_num"));
+					window.change("adminPage");
+				}
+			});
+			add(btnDelete);
 		}
 	}
 
@@ -332,7 +354,7 @@ public class AdminPage extends JPanel {
 			this.schedule = schedule;
 			String str = "";
 			
-			setPreferredSize(new Dimension(250, 30));
+			setPreferredSize(new Dimension(280, 30));
 			setLayout(new GridLayout());
 			// 지하철역
 			for(int i = 0; i < subwayList.size(); i++) {
@@ -341,11 +363,11 @@ public class AdminPage extends JPanel {
 				}
 			}
 			// 열차
-			for(int i = 0; i < trainList.size(); i++) {
-				if(trainList.get(i).get("train_num").equals(schedule.get("train_num"))) {
-					add(new JLabel(schedule.get("train_num") + ": " + trainList.get(i).get("train_class")));
-				}
-			}
+//			for(int i = 0; i < trainList.size(); i++) {
+//				if(trainList.get(i).get("train_num").equals(schedule.get("train_num"))) {
+//					add(new JLabel(schedule.get("train_num") + ": " + trainList.get(i).get("train_class")));
+//				}
+//			}
 			add(new JLabel(schedule.get("direction")));
 			add(new JLabel(schedule.get("time")));
 			add(new JLabel(schedule.get("date")));

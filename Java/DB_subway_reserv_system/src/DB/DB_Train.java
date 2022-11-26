@@ -17,7 +17,7 @@ public class DB_Train {
 	static int createTable_Train() {
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
 		String check = "SELECT COUNT(*) FROM sqlite_master WHERE Name = 'TRAIN'";
-		String sql = "CREATE TABLE TRAIN (TRAIN_NUM INTEGER PRIMARY KEY AUTOINCREMENT, TRAIN_CLASS VARCHAR(255));";
+		String sql = "CREATE TABLE TRAIN (TRAIN_NUM INTEGER PRIMARY KEY AUTOINCREMENT, TRAIN_CLASS VARCHAR(255), CAR_NUM INTEGER);";
 		int count = 0;
 
 		PreparedStatement pstmt; // 리턴 없는 쿼리
@@ -51,7 +51,7 @@ public class DB_Train {
 		createTable_Train();
 
 		Connection con = DB_Connect.connectSQL(); // 연결 객체 생성
-		String sql = "INSERT INTO TRAIN (TRAIN_CLASS) VALUES(\'" + trainClass + "\')";
+		String sql = "INSERT INTO TRAIN (TRAIN_CLASS, CAR_NUM) VALUES(\'" + trainClass + "\', 3)";
 		PreparedStatement pstmt;
 		int count = 0;
 
@@ -88,6 +88,7 @@ public class DB_Train {
 				trainList.add(new HashMap<>());
 				trainList.get(trainList.size() - 1).put("train_num", rs.getString(1));
 				trainList.get(trainList.size() - 1).put("train_class", rs.getString(2));
+				trainList.get(trainList.size() - 1).put("car_num", rs.getString(3));
 			}
 
 			con.close();
@@ -98,10 +99,10 @@ public class DB_Train {
 		return trainList;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		insertTrain("새마을");
-	}
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//
+//		insertTrain("새마을");
+//	}
 
 }

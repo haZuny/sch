@@ -98,22 +98,28 @@ public class AddSchedule extends JPanel {
 		comboBox_train.setBounds(325, 330, 200, 30);
 		add(comboBox_train);
 
+		// 날짜 년 콤보박스
+		String[] yearList = { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031" };
+		JComboBox comboBox_dateYear = new JComboBox(yearList);
+		comboBox_dateYear.setBounds(300, 210, 75, 30);
+		add(comboBox_dateYear);
+
 		// 날짜 월 콤보박스
 		String[] monthList = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", };
 		JComboBox comboBox_dateMonth = new JComboBox(monthList);
-		comboBox_dateMonth.setBounds(325, 210, 75, 30);
+		comboBox_dateMonth.setBounds(400, 210, 50, 30);
 		add(comboBox_dateMonth);
 
 		JLabel lb_dateMonth = new JLabel("월");
 		lb_dateMonth.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_dateMonth.setBounds(400, 210, 50, 30);
+		lb_dateMonth.setBounds(450, 210, 25, 30);
 		add(lb_dateMonth);
 
 		// 날짜 일 콤보박스
 		String[] dayList = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 				"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" };
 		JComboBox comboBox_dateDay = new JComboBox(dayList);
-		comboBox_dateDay.setBounds(450, 210, 75, 30);
+		comboBox_dateDay.setBounds(475, 210, 50, 30);
 		add(comboBox_dateDay);
 
 		// 등록 버튼
@@ -122,7 +128,7 @@ public class AddSchedule extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 				// 추가 가능 여부 플래그
 				boolean canRegister = true;
 
@@ -132,13 +138,15 @@ public class AddSchedule extends JPanel {
 				int allTimeMinute = timeHour * 60 + timeMinute;
 
 				// 날짜
+				int dateYear = Integer.parseInt((String) comboBox_dateYear.getSelectedItem());
 				int dateMonth = Integer.parseInt((String) comboBox_dateMonth.getSelectedItem());
 				int dateDay = Integer.parseInt((String) comboBox_dateDay.getSelectedItem());
-				int allTimeDay = dateMonth * 12 + dateDay;
-				
+				int allTimeDay = dateYear * 12 * 30 + dateMonth * 30 + dateDay;
+
 				// 스케줄 추가 정보
 				String direction = (String) comboBox_direction.getSelectedItem();
 				String trainNum = ((String) comboBox_train.getSelectedItem()).split(":")[0];
+				String trainClass = ((String) comboBox_train.getSelectedItem()).split(":  ")[1];
 
 				// 상행
 				if (direction.equals("상행")) {
@@ -150,156 +158,132 @@ public class AddSchedule extends JPanel {
 							allTimeMinute -= 1440;
 						}
 
-							// 날짜와 열차가 같은 스케줄 찾은 후 시간 비교
-							for (int j = 0; j < scheduleList.size(); j++) {
-								// 스케줄 객체
-								HashMap<String, String> schedule = scheduleList.get(j);
-								
-								// 스케줄 날짜 정보
-								int month = Integer.parseInt(schedule.get("date").split("-")[0]);
-								int day = Integer.parseInt(schedule.get("date").split("-")[1]);
-								int allDay = month * 12 + day;
-								
-								// 스케줄 시간 정보
-								int hour = Integer.parseInt(schedule.get("time").split(":")[0]);
-								int minute = Integer.parseInt(schedule.get("time").split(":")[1]);
-								int allMinute = hour * 60 + minute;
-								
-								// 날짜와 시간이 동일한 스케줄 존재하면 중복 체크
-								if (allTimeDay == allDay && allTimeMinute == allMinute) {
-									canRegister = false;
-								}		
+						// 날짜와 열차가 같은 스케줄 찾은 후 시간 비교
+						for (int j = 0; j < scheduleList.size(); j++) {
+							// 스케줄 객체
+							HashMap<String, String> schedule = scheduleList.get(j);
+
+							int year = Integer.parseInt(schedule.get("date").split("\\.")[0]);
+							int month = Integer.parseInt(schedule.get("date").split("\\.")[1]);
+							int day = Integer.parseInt(schedule.get("date").split("\\.")[2]);
+							int allDay = year * 12 * 30 + month * 30 + day;
+
+							// 스케줄 시간 정보
+							int hour = Integer.parseInt(schedule.get("time").split(":")[0]);
+							int minute = Integer.parseInt(schedule.get("time").split(":")[1]);
+							int allMinute = hour * 60 + minute;
+
+							// 날짜와 시간이 동일한 스케줄 존재하면 중복 체크
+							if (allTimeDay == allDay && allTimeMinute == allMinute) {
+								canRegister = false;
 							}
-					}
-					
-					// 중복 없을 경우 추가
-					if(canRegister) {
-						// 시간 초기화
-						allTimeMinute = timeHour * 60 + timeMinute;
-						allTimeDay = dateMonth * 12 + dateDay;
-						
-						// 각 역에 대하여 추가
-						for(int i = 0; i < subwayList.size(); i++) {
-							// 시간 초과 계산
-							if (allTimeMinute >= 1440) {
-								allTimeDay++;
-								allTimeMinute -= 1440;
-							}
-							int month = allTimeDay / 12;
-							int day = allTimeDay % 12;
-							int hour = allTimeMinute / 60;
-							int minute = allTimeMinute % 60;
-							
-							// 스케줄 추가
-							DB_Schedule.insertSchedule(subwayList.get(i).get("train_num"), trainNum, direction, 
-									Integer.toString(hour)+":"+Integer.toString(minute), Integer.toString(month)+"-"+Integer.toString(day));
-							// 시간 추가
-							if(tra)
 						}
 					}
-					
-					
+
+					// 중복 없을 경우 추가
+					if (canRegister) {
+						// 시간 초기화
+						allTimeMinute = timeHour * 60 + timeMinute;
+						allTimeDay = dateYear * 12 * 30 + dateMonth * 30 + dateDay;
+
+						// 각 역에 대하여 추가
+						for (int i = 0; i < subwayList.size(); i++) {
+							// 시간 초과 계산
+							if (allTimeMinute >= 1440) {
+								allTimeDay += 1;
+								allTimeMinute -= 1440;
+							}
+							int year = allTimeDay / (30 * 12);
+							int month = allTimeDay % (30 * 12) / 30;
+							int day = allTimeDay % (30 * 12) % 30;
+							int hour = allTimeMinute / 60;
+							int minute = allTimeMinute % 60;
+
+							// 스케줄 추가
+							DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum, direction,
+									Integer.toString(hour) + ":" + Integer.toString(minute), Integer.toString(year)
+											+ "." + Integer.toString(month) + "." + Integer.toString(day));
+							// 시간 추가
+							if (trainClass.equals("무궁화")) {
+								allTimeMinute += 20;
+							} else if (trainClass.equals("새마을")) {
+								allTimeMinute += 10;
+							}
+						}
+						window.change("adminPage");
+					} else {
+						JOptionPane.showMessageDialog(null, "해당 시간에 시간표을 추가할 수 없습니다.");
+					}
 				}
 				// 하행
 				if (direction.equals("하행")) {
 					// 각 지하철 역에 대해 열차 중복 여부 검사
-					for (int i = subwayList.size() - 1; i >= 0; i--) {
-						
-						
-						
+					for (int i = subwayList.size() - 1; i >=0; i++) {
+						// 시간 초과 계산
+						if (allTimeMinute >= 1440) {
+							allTimeDay++;
+							allTimeMinute -= 1440;
+						}
+
+						// 날짜와 열차가 같은 스케줄 찾은 후 시간 비교
+						for (int j = 0; j < scheduleList.size(); j++) {
+							// 스케줄 객체
+							HashMap<String, String> schedule = scheduleList.get(j);
+
+							// 스케줄 날짜 정보
+							int year = Integer.parseInt(schedule.get("date").split("\\.")[0]);
+							int month = Integer.parseInt(schedule.get("date").split("\\.")[1]);
+							int day = Integer.parseInt(schedule.get("date").split("\\.")[2]);
+							int allDay = year * 12 * 30 + month * 30 + day;
+
+							// 스케줄 시간 정보
+							int hour = Integer.parseInt(schedule.get("time").split(":")[0]);
+							int minute = Integer.parseInt(schedule.get("time").split(":")[1]);
+							int allMinute = hour * 60 + minute;
+
+							// 날짜와 시간이 동일한 스케줄 존재하면 중복 체크
+							if (allTimeDay == allDay && allTimeMinute == allMinute) {
+								canRegister = false;
+							}
+						}
+					}
+
+					// 중복 없을 경우 추가
+					if (canRegister) {
+						// 시간 초기화
+						allTimeMinute = timeHour * 60 + timeMinute;
+						allTimeDay = dateYear * 12 * 30 + dateMonth * 30 + dateDay;
+
+						// 각 역에 대하여 추가
+						for (int i = subwayList.size() - 1; i >=0; i++) {
+							// 시간 초과 계산
+							if (allTimeMinute >= 1440) {
+								allTimeDay += 1;
+								allTimeMinute -= 1440;
+							}
+							int year = allTimeDay / (30 * 12);
+							int month = allTimeDay % (30 * 12) / 30;
+							int day = allTimeDay % (30 * 12) % 30;
+							int hour = allTimeMinute / 60;
+							int minute = allTimeMinute % 60;
+
+							// 스케줄 추가
+							DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum, direction,
+									Integer.toString(hour) + ":" + Integer.toString(minute), Integer.toString(year)
+											+ "." + Integer.toString(month) + "." + Integer.toString(day));
+							// 시간 추가
+							if (trainClass.equals("무궁화")) {
+								allTimeMinute += 20;
+							} else if (trainClass.equals("새마을")) {
+								allTimeMinute += 10;
+							}
+						}
+						window.change("adminPage");
+					} else {
+						JOptionPane.showMessageDialog(null, "해당 시간에 시간표을 추가할 수 없습니다.");
 					}
 				}
-
-				// 열차 중복 검사
-//				for (int i = 0; i < scheduleList.size(); i++) {
-//					if (scheduleList.get(i).get("train_num").equals(trainNum)) {
-//						int hour = Integer.parseInt(scheduleList.get(i).get("time").split(":")[0]);
-//						int minute = Integer.parseInt(scheduleList.get(i).get("time").split(":")[1]);
-//						int allMinute = hour * 60 + minute;
-//						// 열차 등급 탐색
-//						for (int j = 0; j < trainList.size(); j++) {
-//							if (trainList.get(j).get("train_num").equals(trainNum)) {
-//								// 무궁화
-//								if (trainList.get(j).get("train_class").equals("무궁화")) {
-//									if (allDayMinute <= allMinute
-//											&& allMinute <= allDayMinute + 20 * (subwayList.size() - 1)) {
-//										canRegister = false;
-//									}
-//								}
-//								// 새마을
-//								if (trainList.get(j).get("train_class").equals("새마을")) {
-//									if (allDayMinute <= allMinute
-//											&& allMinute <= allDayMinute + 10 * (subwayList.size() - 1)) {
-//										canRegister = false;
-//									}
-//								}
-//							}
-//						}
-//					}
-//				}
-
-//				if (canRegister) {
-//					// 상행
-//					if (direction.equals("상행")) {
-//						// 각 지하철 역에 대해 추가
-//						for (int i = 0; i < subwayList.size(); i++) {
-//							if (allDayMinute >= 1440)
-//								allDayMinute -= 1440;
-//							int hour = allDayMinute / 60;
-//							int minute = allDayMinute % 60;
-//
-//							// 열차 등급 탐색
-//							for (int j = 0; j < trainList.size(); j++) {
-//								if (trainList.get(j).get("train_num").equals(trainNum)) {
-//									// 무궁화
-//									if (trainList.get(j).get("train_class").equals("무궁화")) {
-//										DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum,
-//												direction, Integer.toString(hour) + ":" + Integer.toString(minute));
-//										allDayMinute += 20;
-//									}
-//									// 새마을
-//									else if (trainList.get(j).get("train_class").equals("새마을")) {
-//										DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum,
-//												direction, Integer.toString(hour) + ":" + Integer.toString(minute));
-//										allDayMinute += 10;
-//									}
-//									window.change("adminPage");
-//								}
-//							}
-//						}
-//					} else {
-//						// 각 지하철 역에 대해 추가
-//						for (int i = subwayList.size() - 1; i >= 0; i--) {
-//							if (allDayMinute >= 1440)
-//								allDayMinute -= 1440;
-//							int hour = allDayMinute / 60;
-//							int minute = allDayMinute % 60;
-//
-//							// 열차 등급 탐색
-//							for (int j = 0; j < trainList.size(); j++) {
-//								if (trainList.get(j).get("train_num").equals(trainNum)) {
-//									// 무궁화
-//									if (trainList.get(j).get("train_class").equals("무궁화")) {
-//										DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum,
-//												direction, Integer.toString(hour) + ":" + Integer.toString(minute));
-//										allDayMinute += 20;
-//									}
-//									// 새마을
-//									else if (trainList.get(j).get("train_class").equals("새마을")) {
-//										DB_Schedule.insertSchedule(subwayList.get(i).get("subway_num"), trainNum,
-//												direction, Integer.toString(hour) + ":" + Integer.toString(minute));
-//										allDayMinute += 10;
-//									}
-//									window.change("adminPage");
-//								}
-//							}
-//						}
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "해당 시간에 열차가 이미 운행중입니다.");
-//				}
 			}
-
 		});
 		btn_register.setBounds(225, 390, 100, 30);
 
@@ -324,8 +308,13 @@ public class AddSchedule extends JPanel {
 
 		JLabel lb_dateDay = new JLabel("일");
 		lb_dateDay.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_dateDay.setBounds(525, 210, 50, 30);
+		lb_dateDay.setBounds(525, 210, 25, 30);
 		add(lb_dateDay);
+
+		JLabel lb_dateYear = new JLabel("년");
+		lb_dateYear.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_dateYear.setBounds(375, 210, 25, 30);
+		add(lb_dateYear);
 
 	}
 }
